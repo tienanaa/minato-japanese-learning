@@ -1,0 +1,104 @@
+.Contain{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 350px;
+    height: fit-content;
+    flex-shrink: 0;
+    background-color: #E8F2F4;
+    margin: 109px 125px;
+    border-radius: 12px;
+border: 1px solid rgba(191, 200, 205, 0.30);
+box-shadow: 0 25px 50px -12px rgba(12, 103, 128, 0.05);
+}
+.ContainImg{
+    
+    width: 60px;  /* Kích thước khung chứa bạn muốn scale */
+  height: 60px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+.ContainImg img{
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.username{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.username label{
+    position: relative;
+}
+input{
+    width: 18rem;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid #E4E4E4;
+    background: #FFF;
+    color: #403e3e;
+    padding-left: 8px;
+}
+input::placeholder {
+  color: #b3b3b3;          /* Thay đổi màu chữ (ví dụ: màu xám nhạt) */
+  font-size: 14px;         /* Chỉnh kích thước chữ nhỏ lại hoặc to lên */
+    /* Biến chữ thành dạng in nghiêng */
+  font-weight: 400;        /* Độ đậm nhạt của chữ */
+  opacity: 1;              /* Bắt buộc phải có để hiển thị đúng màu trên Firefox */
+  padding: 10px;
+}
+.password{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+.containInput{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+.btn-login{
+    width: 15rem;
+    height: 35px;
+    border-radius: 10px;
+    background-color: #0074D4;
+}
+.btn-gg{
+    display: inline-flex;
+  align-items: center;  /* Giúp chữ và icon thẳng hàng đều nhau */
+  justify-content: center;
+  gap: 8px;
+    width: 15rem;
+    color:black;
+    height: 35px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.btn-gg img {
+  width: 20px;          /* Thu nhỏ icon Google lại cho vừa vặn */
+  height: 20px;
+  object-fit: contain;  /* Giữ nguyên tỉ lệ hình ảnh, không lo bị méo */
+}
+.Contain p{
+    font-size: 15px;
+}
+.checkbox_save{
+    width: 18rem;
+    display: flex;
+    flex-direction: row;
+    gap:1px;
+    align-items: center;    /* Căn giữa ô vuông và chữ theo trục dọc */
+    justify-content: flex-start;
+}
+.checkbox_save input{
+    width:15px;
+    height: 15px;
+}
+.remind{
+    color:#0074D4
+}
