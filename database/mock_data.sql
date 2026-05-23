@@ -38,7 +38,7 @@ VALUES
     ('KJ016', '先', 'Tiên', 'BH007', 'N5', 6, 'https://www.pinterest.com/pin/827888344041635237/'),
     ('KJ017', '本', 'Bổn', 'BH002', 'N5', 5, 'https://www.pinterest.com/pin/827888344041635237/'),
     ('KJ018', '語', 'Ngữ', 'BH002', 'N5', 14, 'https://www.pinterest.com/pin/827888344041635237/'),
-    ('KJ019', '校', 'Giáo', 'BH002', 'N5', 10, 'https://www.pinterest.com/pin/827888344041635237/')
+    ('KJ019', '校', 'Giáo', 'BH002', 'N5', 10, 'https://www.pinterest.com/pin/827888344041635237/');
 INSERT INTO AUDIO (AudioID, Audio) 
 VALUES 
     ('AU_001', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1'),
@@ -62,7 +62,7 @@ VALUES
     ('TV0007', '日本語', 'にほんご', 'Tiếng Nhật', 'BH001', '日本語を勉強します。', 'N5', 'Tôi học tiếng Nhật.', 'AU_007'),
     ('TV0008', '友達', 'ともだち', 'Bạn bè', 'BH003', '友達と遊びます。', 'N5', 'Tôi đi chơi với bạn.', 'AU_008'),
     ('TV0009', '大きい', 'おおきi', 'Lớn/To', 'BH006', 'この家は大きいです。', 'N5', 'Ngôi nhà này lớn.', 'AU_009'),
-    ('TV0010', '猫', 'ねこ', 'Con mèo', 'BH003', '猫が好きです', 'N5', 'Tôi thích mèo.', 'AU_010')
+    ('TV0010', '猫', 'ねこ', 'Con mèo', 'BH003', '猫が好きです', 'N5', 'Tôi thích mèo.', 'AU_010');
 INSERT INTO TUVUNGKANJI (TuVungID, KanjiID, MoTa) 
 VALUES 
     ('TV0001', 'KJ016', 'Chữ "Tiên" trong từ "Tiên sinh"'),

@@ -2,6 +2,7 @@
 -- View Tiến trình học tập hàng ngày của người dùng
 CREATE VIEW TienTrinhNguoiDung AS
 SELECT 
+    T.UserID,
     U.Username,
     T.NgayHoc,
     T.SoLuongKanjiDaHoc,
