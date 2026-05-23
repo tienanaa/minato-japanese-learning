@@ -19,6 +19,12 @@ class LoginRequest(BaseModel):
     username: str
     password: str
 
+class UpdateProgressRequest(BaseModel):
+    user_id: str
+    item_id: str
+    loai: str         
+    trang_thai: int   
+
 @app.post("/api/auth/login")
 def login(request: LoginRequest, db_conn = Depends(get_db_connection)):
     user = repositories.login_user(db_conn, request.username, request.password)
@@ -57,3 +63,64 @@ def get_baihoc(trinh_do: Optional[str] = None, db_conn = Depends(get_db_connecti
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi: {str(e)}")
+
+@app.get("/api/baihoc/{baihoc_id}/chitiet")
+def get_chitiet_baihoc(baihoc_id: str, user_id: str, db_conn = Depends(get_db_connection)):
+    try:
+        data = repositories.get_chi_tiet_bai_hoc(db_conn, baihoc_id, user_id)
+        
+        if not data:
+            raise HTTPException(status_code=404, detail="Không tìm thấy mã bài học này")
+            
+        return {
+            "status": "success",
+            "message": "Lấy chi tiết bài học thành công",
+            "data": data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")
+
+@app.post("/api/progress/update")
+def update_progress(request: UpdateProgressRequest, db_conn = Depends(get_db_connection)):
+    if request.loai not in ['Kanji', 'TuVung']:
+        raise HTTPException(status_code=400, detail="Loại dữ liệu phải là 'Kanji' hoặc 'TuVung'")
+        
+    if request.trang_thai not in [0, 1, 2]:
+        raise HTTPException(status_code=400, detail="Trạng thái không hợp lệ (0, 1, 2)")
+
+    success = repositories.update_learning_status(
+        db_conn,
+        request.user_id,
+        request.item_id,
+        request.loai,
+        request.trang_thai
+    )
+
+    if not success:
+        raise HTTPException(status_code=500, detail="Lỗi hệ thống: Không thể cập nhật tiến độ học")
+
+    return {
+        "status": "success",
+        "message": f"Đã cập nhật trạng thái {request.trang_thai} cho {request.item_id}"
+    }
+
+@app.get("/api/quiz/{baihoc_id}")
+def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
+    try:
+        data = repositories.get_danh_sach_cau_hoi(db_conn, baihoc_id)
+        
+        if not data:
+            return {
+                "status": "success",
+                "message": "Bài học này hiện chưa có câu hỏi trắc nghiệm",
+                "data": []
+            }
+            
+        return {
+            "status": "success",
+            "message": "Lấy đề thi thành công",
+            "tong_so_cau": len(data),
+            "data": data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")

@@ -110,12 +110,7 @@ BEGIN
     WHERE UserID = p_UserID AND TuVungID = p_TuVungID;
 END;
 $$;
---lệnh gọi
-call pr_ResetTrangThaiTuVung('U002','TV0001');
---KIEM TRA
-SELECT TuVungID, TrangThai
-FROM TRANGTHAITUVUNG
-WHERE UserID = 'U002' AND TuVungID = 'TV0001';
+
 -- Procedure 5 Reset toàn bộ trạng thái học của Kanji 
 CREATE OR REPLACE PROCEDURE pr_ResetTrangThaiKanji(p_UserID VARCHAR, p_KanjiID VARCHAR)
 LANGUAGE plpgsql 
@@ -126,12 +121,7 @@ BEGIN
     WHERE UserID = p_UserID AND KanjiID = p_KanjiID;
 END;
 $$;
---call
-call  pr_ResetTrangThaiKanji('U001','KJ001');
---kiem tra
-SELECT KanjiID, TrangThai 
-FROM TRANGTHAIKANJI 
-WHERE UserID = 'U001' AND KanjiID = 'KJ001';
+
 --PROCEDURE 6 GHI CHÚ CÁ NHÂN CHO TỪ VỰNG
 CREATE OR REPLACE PROCEDURE pr_ThemGhiChuHocTap(p_UserID VARCHAR, p_TuVungID VARCHAR, p_NoiDung TEXT)
 LANGUAGE plpgsql AS $$
@@ -141,14 +131,8 @@ BEGIN
     WHERE UserID = p_UserID AND TuVungID = p_TuVungID;
 END;
 $$;
---call 
-CALL pr_ThemGhiChuHocTap('U002', 'TV0001', 'Cần chú ý âm Onyomi của từ này');
---kiemtra
-SELECT TuVungID, TrangThai, GhiChu 
-FROM TRANGTHAITUVUNG 
-WHERE UserID = 'U002' AND TuVungID = 'TV0001';
 
---  PROCEDURE 7THÊM GHI CHÚ CÁ NHÂN CHO KANJI
+--  PROCEDURE 7 THÊM GHI CHÚ CÁ NHÂN CHO KANJI
 CREATE OR REPLACE PROCEDURE pr_ThemGhiChuKanji(
     p_UserID VARCHAR, 
     p_KanjiID VARCHAR, -- Đổi tên tham số cho đúng bản chất
@@ -162,13 +146,6 @@ BEGIN
 END;
 $$;
 
--- Lệnh gọi chuẩn
-CALL pr_ThemGhiChuKanji('U001', 'KJ001', 'Chữ này giống hình cái cây');
-
--- Lệnh kiểm tra chuẩn
-SELECT KanjiID, TrangThai, GhiChu 
-FROM TRANGTHAIKANJI 
-WHERE UserID = 'U001' AND KanjiID = 'KJ001';
 -- Procedure 8 Cập nhật trạng thái cho Kanji
 CREATE OR REPLACE PROCEDURE pr_GhiNhanHocKanji(
     p_UserID VARCHAR(10),
@@ -212,13 +189,6 @@ BEGIN
     END IF;
 END;
 $$;
-
---call
-CALL pr_GhiNhanHocKanji('U003', 'KJ010', 2, 'TD007', 'CT050');
--- 1. Kiểm tra trạng thái chữ Kanji đó đã chuyển sang "Đã thuộc" (2) chưa
-SELECT UserID, KanjiID, TrangThai, NgayHocLanGanNhat 
-FROM TRANGTHAIKANJI 
-WHERE UserID = 'U003' AND KanjiID = 'KJ001';
 
 -- 2. Kiểm tra xem bảng TIENDOHANGNGAY đã cộng thêm 1 vào cột Kanji chưa
 SELECT UserID, NgayHoc, SoLuongKanjiDaHoc, SoLuongTuVungDaHoc 
@@ -268,15 +238,3 @@ BEGIN
     END IF;
 END;
 $$;
--- call
-CALL pr_GhiNhanHocTuVung('U003', 'TV0005', 2, 'TD007', 'CT051');
---kiem tra
--- 1. Kiểm tra trạng thái chữ Kanji đó đã chuyển sang "Đã thuộc" (2) chưa
-SELECT UserID, TuVungID, TrangThai, NgayHocLanGanNhat 
-FROM TRANGTHAITUVUNG
-WHERE UserID = 'U003' AND TuVungID = 'TV0005';
-
--- 2. Kiểm tra xem bảng TIENDOHANGNGAY đã cộng thêm 1 vào cột Kanji chưa
-SELECT UserID, NgayHoc, SoLuongKanjiDaHoc, SoLuongTuVungDaHoc 
-FROM TIENDOHANGNGAY 
-WHERE UserID = 'U003' AND NgayHoc = '2026-04-24 19:20:00';
