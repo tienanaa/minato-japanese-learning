@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import get_db_connection
 import repositories
-from typing import Optional
+from typing import Optional, List
 
 app = FastAPI(title="Minato - Hệ thống học Từ vựng và Hán tự Tiếng Nhật")
 
@@ -24,6 +24,15 @@ class UpdateProgressRequest(BaseModel):
     item_id: str
     loai: str         
     trang_thai: int   
+
+class ChiTietNopBai(BaseModel):
+    cauhoiid: str
+    luachonid: str
+
+class NopBaiRequest(BaseModel):
+    user_id: str
+    btontapid: str
+    chi_tiet: List[ChiTietNopBai]
 
 @app.post("/api/auth/login")
 def login(request: LoginRequest, db_conn = Depends(get_db_connection)):
@@ -124,3 +133,46 @@ def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")
+
+@app.post("/api/quiz/{baihoc_id}/submit")
+def nop_bai_kiem_tra(baihoc_id: str, request: NopBaiRequest, db_conn = Depends(get_db_connection)):
+    try:
+        ket_qua = repositories.submit_quiz(
+            db_conn, 
+            baihoc_id,
+            request.user_id, 
+            request.btontapid, 
+            request.chi_tiet
+        )
+        
+        if ket_qua:
+            return {
+                "status": "success",
+                "message": "Nộp bài thành công!",
+                "data": ket_qua 
+            }
+        else:
+            raise HTTPException(status_code=400, detail="Không thể ghi nhận kết quả làm bài.")
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")
+
+@app.get("/api/quiz/{baihoc_id}/{lambai_id}")
+def xem_chi_tiet_lich_su(baihoc_id: str, lambai_id: int, db_conn = Depends(get_db_connection)):
+    try:
+        data = repositories.get_chi_tiet_lich_su(db_conn, lambai_id)
+        
+        if not data:
+            return {
+                "status": "success",
+                "message": "Không tìm thấy chi tiết cho lần làm bài này",
+                "data": []
+            }
+            
+        return {
+            "status": "success",
+            "message": "Lấy chi tiết làm bài thành công",
+            "data": data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")

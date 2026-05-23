@@ -83,13 +83,17 @@ JOIN CACLUACHON L ON C.CauHoiID = L.CauHoiID;
 -- View Lịch sử làm bài tổng quát
 CREATE VIEW LichSuLamBai AS
 SELECT 
+	N.LamBaiID,
     N.UserID,
+	B.BTOntapID,
+	B.BaiHocID,
     B.TenBaiTap,
     N.NgayLam,
     N.Diem,
     N.SoLanLamBai
 FROM NHATKYLAMBAI N
 JOIN BAITAPONTAP B ON N.BTOntapID = B.BTOntapID;
+
 
 -- View Chi tiết từng câu trả lời trong một lần làm bài cụ thể
 CREATE VIEW ChiTietLichSuLamBai AS

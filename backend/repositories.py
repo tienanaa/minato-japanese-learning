@@ -156,3 +156,88 @@ def get_danh_sach_cau_hoi(conn, baihoc_id):
             })
             
         return list(grouped_data.values())
+
+def get_lich_su_tong_quan(conn, user_id, baihoc_id):
+    with conn.cursor() as cursor:
+        query = """
+            SELECT LamBaiID, BTOntapID, TenBaiTap, NgayLam, Diem, SoLanLamBai 
+            FROM LichSuLamBai 
+            WHERE UserID = %s AND BaiHocID = %s
+            ORDER BY NgayLam DESC;
+        """
+        cursor.execute(query, (user_id, baihoc_id))
+        
+        columns = [column[0] for column in cursor.description]
+        results = cursor.fetchall()
+        return [dict(zip(columns, row)) for row in results]
+ 
+def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
+    with conn.cursor() as cursor:
+        try:
+            query_so_lan = """
+                SELECT COALESCE(MAX(SoLanLamBai), 0) + 1 
+                FROM NHATKYLAMBAI 
+                WHERE UserID = %s AND BTOntapID = %s;
+            """
+            cursor.execute(query_so_lan, (user_id, btontapid))
+            so_lan_lam_bai = cursor.fetchone()[0]
+
+            danh_sach_lua_chon = tuple([ct.luachonid for ct in chi_tiet])
+            
+            query_cham_diem = """
+                SELECT COUNT(*) 
+                FROM BaiTapKiemTra 
+                WHERE LuaChonID IN %s AND DaPanDung = TRUE;
+            """
+            cursor.execute(query_cham_diem, (danh_sach_lua_chon,))
+            so_cau_dung = cursor.fetchone()[0]
+            
+            tong_so_cau = len(chi_tiet)
+            diem = round((so_cau_dung / tong_so_cau) * 10.0, 1) if tong_so_cau > 0 else 0.0
+
+            query_nhatky = """
+                INSERT INTO NHATKYLAMBAI (UserID, BTOntapID, SoLanLamBai, Diem)
+                VALUES (%s, %s, %s, %s)
+                RETURNING LamBaiID;
+            """
+            cursor.execute(query_nhatky, (user_id, btontapid, so_lan_lam_bai, diem))
+            lambai_id = cursor.fetchone()[0]
+
+            query_chitiet = """
+                INSERT INTO CHITIETLAMBAI (LamBaiID, CauHoiID, LuaChonID)
+                VALUES (%s, %s, %s);
+            """
+            for ct in chi_tiet:
+                cursor.execute(query_chitiet, (lambai_id, ct.cauhoiid, ct.luachonid))
+
+            conn.commit() 
+            
+            lich_su_tong_quan = get_lich_su_tong_quan(conn, user_id, baihoc_id)
+
+            return {
+                "ket_qua_hien_tai": {
+                    "lambai_id": lambai_id,
+                    "diem_so": diem,
+                    "so_cau_dung": so_cau_dung,
+                    "tong_so_cau": tong_so_cau,
+                    "so_lan_lam_bai": so_lan_lam_bai
+                },
+                "lich_su_lam_bai": lich_su_tong_quan
+            }
+        except Exception as e:
+            conn.rollback()
+            print("Lỗi khi nộp bài:", e)
+            return None
+        
+def get_chi_tiet_lich_su(conn, lambai_id):
+    with conn.cursor() as cursor:
+        query = """
+            SELECT CauHoi, DapAnNguoiDungChon, LaDung, DapAnDungChinhXac 
+            FROM ChiTietLichSuLamBai 
+            WHERE LamBaiID = %s;
+        """
+        cursor.execute(query, (lambai_id,))
+        
+        columns = [column[0] for column in cursor.description]
+        results = cursor.fetchall()
+        return [dict(zip(columns, row)) for row in results]
