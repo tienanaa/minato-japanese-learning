@@ -259,7 +259,7 @@ VALUES
     ('CT015', 'TD003', NULL, 'TV0008'),
     ('CT016', 'TD003', NULL, 'TV0009'),
     ('CT017', 'TD003', NULL, 'TV0010'),
-    ('CT018', 'TD003', NULL, 'TV0010'),
+    ('CT018', 'TD004', NULL, 'TV0010'),
     ('CT019', 'TD004', 'KJ001', NULL),
     ('CT020', 'TD004', 'KJ002', NULL),
     ('CT021', 'TD004', 'KJ003', NULL),

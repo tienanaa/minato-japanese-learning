@@ -146,95 +146,70 @@ BEGIN
 END;
 $$;
 
--- Procedure 8 Cập nhật trạng thái cho Kanji
+-- 
 CREATE OR REPLACE PROCEDURE pr_GhiNhanHocKanji(
     p_UserID VARCHAR(10),
     p_KanjiID VARCHAR(10),
     p_TrangThai INT,
-    p_TienDoID VARCHAR(10),  -- Mã tự tạo từ ứng dụng truyền xuống nếu hôm nay chưa có
-    p_ChiTietID VARCHAR(10)  -- Mã tự tạo từ ứng dụng truyền xuống
+    p_TienDoID VARCHAR(10),
+    p_ChiTietID VARCHAR(10)
 )
 LANGUAGE plpgsql AS $$
+
 DECLARE
     v_TienDoID VARCHAR(10);
 BEGIN
-    -- 1. Cập nhật trạng thái của KANJI
-    UPDATE TRANGTHAIKANJI
+    UPDATE TRANGTHAIKANJI 
     SET TrangThai = p_TrangThai, 
         NgayHocLanGanNhat = CURRENT_TIMESTAMP
     WHERE UserID = p_UserID AND KanjiID = p_KanjiID;
 
-    -- CHỈ GHI NHẬN TIẾN ĐỘ NẾU CHUYỂN SANG TRẠNG THÁI "ĐÃ HỌC" (Ví dụ TrangThai = 2)
-    IF p_TrangThai = 2 THEN
-        -- 2. Kiểm tra xem hôm nay user đã có bản ghi tiến độ chưa
+    IF p_TrangThai = 2 THEN 
+        INSERT INTO TIENDOHANGNGAY (TienDoID, NgayHoc, UserID, SoLuongTuVungDaHoc, SoLuongKanjiDaHoc, TrangThai)
+        VALUES (p_TienDoID, CURRENT_DATE, p_UserID, 0, 0, FALSE)
+        ON CONFLICT (UserID, NgayHoc) DO NOTHING;
+        
         SELECT TienDoID INTO v_TienDoID 
         FROM TIENDOHANGNGAY 
         WHERE UserID = p_UserID AND NgayHoc = CURRENT_DATE;
 
-        IF v_TienDoID IS NULL THEN
-            -- Nếu chưa có, tạo mới một dòng tiến độ cho ngày hôm nay
-            v_TienDoID := p_TienDoID;
-            INSERT INTO TIENDOHANGNGAY (TienDoID, NgayHoc, UserID, SoLuongTuVungDaHoc, SoLuongKanjiDaHoc, TrangThai)
-            VALUES (v_TienDoID, CURRENT_DATE, p_UserID, 1, 0, FALSE);
-        ELSE
-            -- Nếu có rồi, cộng thêm 1 vào số lượng KANJI đã học
-            UPDATE TIENDOHANGNGAY
-            SET SoLuongKanjiDaHoc = SoLuongKanjiDaHoc + 1
-            WHERE TienDoID = v_TienDoID;
-        END IF;
-
-        -- 3. Ghi vết chi tiết KANJI vừa học vào bảng Tiến Độ Chi Tiết
         INSERT INTO TIENDOHANGNGAYCHITIET (ChiTietID, TienDoID, KanjiID)
-        VALUES (p_ChiTietID, v_TienDoID, p_KanjiID);
+        VALUES (p_ChiTietID, v_TienDoID, p_KanjiID)
+        ON CONFLICT (TienDoID, KanjiID) DO NOTHING;
+        
     END IF;
 END;
 $$;
 
--- 2. Kiểm tra xem bảng TIENDOHANGNGAY đã cộng thêm 1 vào cột Kanji chưa
-SELECT UserID, NgayHoc, SoLuongKanjiDaHoc, SoLuongTuVungDaHoc 
-FROM TIENDOHANGNGAY 
-WHERE UserID = 'U003' AND NgayHoc = '2026-04-24 19:20:00';
-
--- Procedure 9 Cập nhật trạng thái cho Từ vựng
+-- Procedure 9
 CREATE OR REPLACE PROCEDURE pr_GhiNhanHocTuVung(
     p_UserID VARCHAR(10),
     p_TuVungID VARCHAR(10),
     p_TrangThai INT,
-    p_TienDoID VARCHAR(10),  -- Mã tự tạo từ ứng dụng truyền xuống nếu hôm nay chưa có
-    p_ChiTietID VARCHAR(10)  -- Mã tự tạo từ ứng dụng truyền xuống
+    p_TienDoID VARCHAR(10),
+    p_ChiTietID VARCHAR(10)
 )
 LANGUAGE plpgsql AS $$
 DECLARE
     v_TienDoID VARCHAR(10);
 BEGIN
-    -- 1. Cập nhật trạng thái của từ vựng
-    UPDATE TRANGTHAITUVUNG
+    UPDATE TRANGTHAITUVUNG 
     SET TrangThai = p_TrangThai, 
         NgayHocLanGanNhat = CURRENT_TIMESTAMP
     WHERE UserID = p_UserID AND TuVungID = p_TuVungID;
 
-    -- CHỈ GHI NHẬN TIẾN ĐỘ NẾU CHUYỂN SANG TRẠNG THÁI "ĐÃ HỌC" (Ví dụ TrangThai = 2)
-    IF p_TrangThai = 2 THEN
-        -- 2. Kiểm tra xem hôm nay user đã có bản ghi tiến độ chưa
+    IF p_TrangThai = 2 THEN 
+        INSERT INTO TIENDOHANGNGAY (TienDoID, NgayHoc, UserID, SoLuongTuVungDaHoc, SoLuongKanjiDaHoc, TrangThai)
+        VALUES (p_TienDoID, CURRENT_DATE, p_UserID, 0, 0, FALSE)
+        ON CONFLICT (UserID, NgayHoc) DO NOTHING;
+        
         SELECT TienDoID INTO v_TienDoID 
         FROM TIENDOHANGNGAY 
         WHERE UserID = p_UserID AND NgayHoc = CURRENT_DATE;
 
-        IF v_TienDoID IS NULL THEN
-            -- Nếu chưa có, tạo mới một dòng tiến độ cho ngày hôm nay
-            v_TienDoID := p_TienDoID;
-            INSERT INTO TIENDOHANGNGAY (TienDoID, NgayHoc, UserID, SoLuongTuVungDaHoc, SoLuongKanjiDaHoc, TrangThai)
-            VALUES (v_TienDoID, CURRENT_DATE, p_UserID, 1, 0, FALSE);
-        ELSE
-            -- Nếu có rồi, cộng thêm 1 vào số lượng từ vựng đã học
-            UPDATE TIENDOHANGNGAY
-            SET SoLuongTuVungDaHoc = SoLuongTuVungDaHoc + 1
-            WHERE TienDoID = v_TienDoID;
-        END IF;
-
-        -- 3. Ghi vết chi tiết từ vựng vừa học vào bảng Tiến Độ Chi Tiết
         INSERT INTO TIENDOHANGNGAYCHITIET (ChiTietID, TienDoID, TuVungID)
-        VALUES (p_ChiTietID, v_TienDoID, p_TuVungID);
+        VALUES (p_ChiTietID, v_TienDoID, p_TuVungID)
+        ON CONFLICT (TienDoID, TuVungID) DO NOTHING;
     END IF;
 END;
 $$;

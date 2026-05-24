@@ -32,7 +32,7 @@ def get_dashboard_info(conn,user_id):
         cursor.execute("SELECT public.count_tuvung(%s)", (user_id,))
         total_tuvung = cursor.fetchone()[0]
 
-        return {
+        return { 
             "tien_do_hom_nay": {
                 "ngay": today_progress[0] if today_progress else None,
                 "kanji_da_hoc": today_progress[1] if today_progress else 0,
@@ -179,10 +179,13 @@ def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
         try:
             query_nhatky = """
                 INSERT INTO NHATKYLAMBAI (UserID, BTOntapID, SoLanLamBai, Diem)
-                VALUES (%s, %s, 0, 0)
+                VALUES (%s, %s, 
+                    (SELECT COALESCE(MAX(SoLanLamBai), 0) + 1 FROM NHATKYLAMBAI WHERE UserID = %s AND BTOntapID = %s), 
+                    0
+                )
                 RETURNING LamBaiID;
             """
-            cursor.execute(query_nhatky, (user_id, btontapid))
+            cursor.execute(query_nhatky, (user_id, btontapid, user_id, btontapid))
             lambai_id = cursor.fetchone()[0]
 
             query_chitiet = """
