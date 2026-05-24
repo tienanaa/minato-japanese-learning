@@ -45,7 +45,7 @@ def get_dashboard_info(conn,user_id):
             }
         }
 
-def get_danh_sach_bai_hoc(conn, trinh_do=None):
+def get_danh_sach_bai_hoc(conn, user_id,trinh_do=None):
     with conn.cursor() as cursor:
         if trinh_do:
             query = """

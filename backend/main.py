@@ -20,7 +20,6 @@ class LoginRequest(BaseModel):
     password: str
 
 class UpdateProgressRequest(BaseModel):
-    user_id: str
     item_id: str
     loai: str         
     trang_thai: int   
@@ -30,7 +29,6 @@ class ChiTietNopBai(BaseModel):
     luachonid: str
 
 class NopBaiRequest(BaseModel):
-    user_id: str
     btontapid: str
     chi_tiet: List[ChiTietNopBai]
 
@@ -60,10 +58,10 @@ def get_dashboard(user_id: str, db_conn = Depends(get_db_connection)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi truy xuất dữ liệu: {str(e)}")
 
-@app.get("/api/baihoc")
-def get_baihoc(trinh_do: Optional[str] = None, db_conn = Depends(get_db_connection)):
+@app.get("/api/users/{user_id}/baihoc")
+def get_baihoc(user_id: str, trinh_do: Optional[str] = None, db_conn = Depends(get_db_connection)):
     try:
-        data = repositories.get_danh_sach_bai_hoc(db_conn, trinh_do)
+        data = repositories.get_danh_sach_bai_hoc(db_conn,user_id, trinh_do)
         
         return {
             "status": "success",
@@ -73,8 +71,8 @@ def get_baihoc(trinh_do: Optional[str] = None, db_conn = Depends(get_db_connecti
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi: {str(e)}")
 
-@app.get("/api/baihoc/{baihoc_id}")
-def get_chitiet_baihoc(baihoc_id: str, user_id: str, db_conn = Depends(get_db_connection)):
+@app.get("/api/users/{user_id}/baihoc/{baihoc_id}")
+def get_chitiet_baihoc(user_id: str, baihoc_id: str,  db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_chi_tiet_bai_hoc(db_conn, baihoc_id, user_id)
         
@@ -89,8 +87,8 @@ def get_chitiet_baihoc(baihoc_id: str, user_id: str, db_conn = Depends(get_db_co
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")
 
-@app.post("/api/progress/update")
-def update_progress(request: UpdateProgressRequest, db_conn = Depends(get_db_connection)):
+@app.post("/api/users/{user_id}/progress")
+def update_progress(user_id: str, request: UpdateProgressRequest, db_conn = Depends(get_db_connection)):
     if request.loai not in ['Kanji', 'TuVung']:
         raise HTTPException(status_code=400, detail="Loại dữ liệu phải là 'Kanji' hoặc 'TuVung'")
         
@@ -99,7 +97,7 @@ def update_progress(request: UpdateProgressRequest, db_conn = Depends(get_db_con
 
     success = repositories.update_learning_status(
         db_conn,
-        request.user_id,
+        user_id,
         request.item_id,
         request.loai,
         request.trang_thai
@@ -113,7 +111,7 @@ def update_progress(request: UpdateProgressRequest, db_conn = Depends(get_db_con
         "message": f"Đã cập nhật trạng thái {request.trang_thai} cho {request.item_id}"
     }
 
-@app.get("/api/baihoc/{baihoc_id}/quiz")
+@app.get("/api/users/{user_id}/baihoc/{baihoc_id}/quiz")
 def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_danh_sach_cau_hoi(db_conn, baihoc_id)
@@ -134,13 +132,13 @@ def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")
 
-@app.post("/api/baihoc/{baihoc_id}/quiz/submit")
-def nop_bai_kiem_tra(baihoc_id: str, request: NopBaiRequest, db_conn = Depends(get_db_connection)):
+@app.post("/api/users/{user_id}/baihoc/{baihoc_id}/quiz/submit")
+def nop_bai_kiem_tra(user_id: str, baihoc_id: str, request: NopBaiRequest, db_conn = Depends(get_db_connection)):
     try:
         ket_qua = repositories.submit_quiz(
             db_conn, 
             baihoc_id,
-            request.user_id, 
+            user_id, 
             request.btontapid, 
             request.chi_tiet
         )
@@ -157,8 +155,8 @@ def nop_bai_kiem_tra(baihoc_id: str, request: NopBaiRequest, db_conn = Depends(g
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")
 
-@app.get("/api/quiz/{baihoc_id}/{lambai_id}")
-def xem_chi_tiet_lich_su(baihoc_id: str, lambai_id: int, db_conn = Depends(get_db_connection)):
+@app.get("/api/users/{user_id}/quiz/{lambai_id}")
+def xem_chi_tiet_lich_su(user_id: str, lambai_id: int, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_chi_tiet_lich_su(db_conn, lambai_id)
         
