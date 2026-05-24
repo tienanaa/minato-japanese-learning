@@ -179,13 +179,10 @@ def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
         try:
             query_nhatky = """
                 INSERT INTO NHATKYLAMBAI (UserID, BTOntapID, SoLanLamBai, Diem)
-                VALUES (%s, %s, 
-                    (SELECT COALESCE(MAX(SoLanLamBai), 0) + 1 FROM NHATKYLAMBAI WHERE UserID = %s AND BTOntapID = %s), 
-                    0
-                )
+                VALUES (%s, %s, 0, 0)
                 RETURNING LamBaiID;
             """
-            cursor.execute(query_nhatky, (user_id, btontapid, user_id, btontapid))
+            cursor.execute(query_nhatky, (user_id, btontapid))
             lambai_id = cursor.fetchone()[0]
 
             query_chitiet = """

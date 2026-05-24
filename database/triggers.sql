@@ -165,3 +165,23 @@ CREATE TRIGGER trg_delete_tiendohangngay
 AFTER DELETE ON TIENDOHANGNGAYCHITIET
 FOR EACH ROW
 EXECUTE FUNCTION delete_tiendohangngay();
+
+
+CREATE OR REPLACE FUNCTION fn_TuDongDemSoLanLamBai()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.SoLanLamBai := COALESCE(
+        (SELECT MAX(SoLanLamBai) 
+         FROM NHATKYLAMBAI 
+         WHERE UserID = NEW.UserID AND BTOntapID = NEW.BTOntapID), 
+        0
+    ) + 1;
+    
+    RETURN NEW; 
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_TruocKhiNopBai
+BEFORE INSERT ON NHATKYLAMBAI
+FOR EACH ROW
+EXECUTE FUNCTION fn_TuDongDemSoLanLamBai();

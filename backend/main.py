@@ -156,7 +156,7 @@ def nop_bai_kiem_tra(user_id: str, baihoc_id: str, request: NopBaiRequest, db_co
         raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")
 
 @app.get("/api/users/{user_id}/quiz/{lambai_id}")
-def xem_chi_tiet_lich_su(user_id: str, lambai_id: int, db_conn = Depends(get_db_connection)):
+def xem_chi_tiet_lich_su(baihoc_id: str, lambai_id: int, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_chi_tiet_lich_su(db_conn, lambai_id)
         

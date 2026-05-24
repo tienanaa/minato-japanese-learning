@@ -51,11 +51,11 @@ BEGIN
 END;
 $$;
 
---PROCEDURE 2 cập nhật nhật ký làm bài, thêm điểm số và số lần làm bài
+--PROCEDURE 2 cập nhật nhật ký làm bài, thêm điểm số
 CREATE OR REPLACE PROCEDURE pr_GhiNhanKetQuaLamBai(
     p_UserID VARCHAR(10),
     p_BTOntapID VARCHAR(10),
-    p_LamBaiID INT -- ID bài làm mà ứng dụng đã tạo sẵn trước đó
+    p_LamBaiID INT 
 )
 LANGUAGE plpgsql
 AS $$
@@ -63,22 +63,13 @@ DECLARE
     v_Diem NUMERIC(4,1);
     v_SoLan INT;
 BEGIN
-    -- 1. Gọi Function tính điểm 
     v_Diem := CAL_SCORE(p_BTOntapID, p_UserID, p_LamBaiID);
 
-    -- 2. Tự động tính số lần làm bài (tăng thêm 1 so với lần gần nhất)
-    SELECT COALESCE(MAX(SoLanLamBai), 0) + 1 INTO v_SoLan
-    FROM NHATKYLAMBAI
-    WHERE UserID = p_UserID AND BTOntapID = p_BTOntapID;
-
-    -- 3. Ghi vào bảng NHATKYLAMBAI (Cập nhật hoặc Insert)
-    -- Ở đây tui dùng UPDATE vì thường bạn đã tạo bản ghi nhật ký trống trước khi làm bài
     UPDATE NHATKYLAMBAI 
-    SET Diem = v_Diem,
-        SoLanLamBai = v_SoLan
+    SET Diem = v_Diem
     WHERE LamBaiID = p_LamBaiID;
 
-    RAISE NOTICE 'Người dùng % đã hoàn thành bài tập. Lần làm: %, Điểm: %', p_UserID, v_SoLan, v_Diem;
+    RAISE NOTICE 'Người dùng % đã hoàn thành bài tập. Điểm: %', p_UserID, v_Diem;
 END;
 $$;
 
