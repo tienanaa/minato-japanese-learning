@@ -26,3 +26,4 @@ def get_db_connection():
         yield conn
     finally:
         db_pool.putconn(conn)
+

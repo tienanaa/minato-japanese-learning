@@ -62,12 +62,14 @@ def get_danh_sach_bai_hoc(conn, trinh_do=None):
         columns = [column[0] for column in cursor.description]
         results = cursor.fetchall()
         
-        return [dict(zip(columns, row)) for row in results]
+        return { "so_luong_bai_hoc": len(results),
+            "danh_sach_bai_hoc": [dict(zip(columns, row)) for row in results]
+        }
     
 def get_chi_tiet_bai_hoc(conn, baihoc_id, user_id):
 
     with conn.cursor() as cursor:
-        cursor.execute("SELECT Loai FROM BAIHOC WHERE BaiHocID = %s", (baihoc_id,))
+        cursor.execute("SELECT loai FROM public.baihoc WHERE baihocid = %s", (baihoc_id,))
         row = cursor.fetchone()
         
         if not row:
@@ -87,7 +89,8 @@ def get_chi_tiet_bai_hoc(conn, baihoc_id, user_id):
         
         return {
             "loai": loai_bai_hoc,
-            "danh_sach": [dict(zip(columns, r)) for r in results]
+            "so_luong_chi_tiet":len(results),
+            "danh_sach_chi_tiet": [dict(zip(columns, r)) for r in results]
         }
 
 def generate_short_id(prefix, length=10):
@@ -174,41 +177,34 @@ def get_lich_su_tong_quan(conn, user_id, baihoc_id):
 def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
     with conn.cursor() as cursor:
         try:
-            query_so_lan = """
-                SELECT COALESCE(MAX(SoLanLamBai), 0) + 1 
-                FROM NHATKYLAMBAI 
-                WHERE UserID = %s AND BTOntapID = %s;
-            """
-            cursor.execute(query_so_lan, (user_id, btontapid))
-            so_lan_lam_bai = cursor.fetchone()[0]
-
-            danh_sach_lua_chon = tuple([ct.luachonid for ct in chi_tiet])
-            
-            query_cham_diem = """
-                SELECT COUNT(*) 
-                FROM BaiTapKiemTra 
-                WHERE LuaChonID IN %s AND DaPanDung = TRUE;
-            """
-            cursor.execute(query_cham_diem, (danh_sach_lua_chon,))
-            so_cau_dung = cursor.fetchone()[0]
-            
-            tong_so_cau = len(chi_tiet)
-            diem = round((so_cau_dung / tong_so_cau) * 10.0, 1) if tong_so_cau > 0 else 0.0
-
             query_nhatky = """
                 INSERT INTO NHATKYLAMBAI (UserID, BTOntapID, SoLanLamBai, Diem)
-                VALUES (%s, %s, %s, %s)
+                VALUES (%s, %s, 0, 0)
                 RETURNING LamBaiID;
             """
-            cursor.execute(query_nhatky, (user_id, btontapid, so_lan_lam_bai, diem))
+            cursor.execute(query_nhatky, (user_id, btontapid))
             lambai_id = cursor.fetchone()[0]
 
             query_chitiet = """
-                INSERT INTO CHITIETLAMBAI (LamBaiID, CauHoiID, LuaChonID)
-                VALUES (%s, %s, %s);
+                INSERT INTO CHITIETLAMBAI (LamBaiID, CauHoiID, LuaChonID, LaDung)
+                VALUES (%s, %s, %s, (SELECT DapAnDung FROM CACLUACHON WHERE LuaChonID = %s));
             """
             for ct in chi_tiet:
-                cursor.execute(query_chitiet, (lambai_id, ct.cauhoiid, ct.luachonid))
+                cursor.execute(query_chitiet, (lambai_id, ct.cauhoiid, ct.luachonid, ct.luachonid))
+
+            cursor.execute("CALL pr_GhiNhanKetQuaLamBai(%s, %s, %s)", (user_id, btontapid, lambai_id))
+            
+            cursor.execute("""
+                SELECT Diem, SoLanLamBai, 
+                       (SELECT COUNT(*) FROM CHITIETLAMBAI WHERE LamBaiID = %s AND LaDung = TRUE) AS SoCauDung
+                FROM NHATKYLAMBAI 
+                WHERE LamBaiID = %s;
+            """, (lambai_id, lambai_id))
+            
+            row = cursor.fetchone()
+            diem = row[0]
+            so_lan_lam_bai = row[1]
+            so_cau_dung = row[2]
 
             conn.commit() 
             
@@ -217,9 +213,9 @@ def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
             return {
                 "ket_qua_hien_tai": {
                     "lambai_id": lambai_id,
-                    "diem_so": diem,
+                    "diem_so": float(diem) if diem else 0.0,
                     "so_cau_dung": so_cau_dung,
-                    "tong_so_cau": tong_so_cau,
+                    "tong_so_cau": len(chi_tiet),
                     "so_lan_lam_bai": so_lan_lam_bai
                 },
                 "lich_su_lam_bai": lich_su_tong_quan

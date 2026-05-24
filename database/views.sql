@@ -32,28 +32,6 @@ SELECT
 FROM TRANGTHAIKANJI TK
 JOIN KANJI K ON TK.KanjiID = K.KanjiID;
 
--- View Nội dung tổng quát của bài học (Gộp cả Kanji và Từ vựng)
-CREATE VIEW NoiDungBaiHoc AS
-SELECT 
-    B.BaiHocID,
-    B.TenBai,
-    B.TrinhDo,
-    'Kanji' AS LoaiDuLieu,
-    K.KyTu AS NoiDung,
-    K.Nghia
-FROM BAIHOC B
-JOIN KANJI K ON B.BaiHocID = K.BaiHocID
-UNION ALL
-SELECT 
-    B.BaiHocID,
-    B.TenBai,
-    B.TrinhDo,
-    'TuVung' AS LoaiDuLieu,
-    V.TuVung AS NoiDung,
-    V.Nghia
-FROM BAIHOC B
-JOIN TUVUNG V ON B.BaiHocID = V.BaiHocID;
-
 -- View Chi tiết chữ Kanji và các cách đọc tương ứng
 CREATE VIEW ChiTietKanji AS
 SELECT 

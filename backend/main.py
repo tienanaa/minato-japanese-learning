@@ -73,7 +73,7 @@ def get_baihoc(trinh_do: Optional[str] = None, db_conn = Depends(get_db_connecti
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi: {str(e)}")
 
-@app.get("/api/baihoc/{baihoc_id}/chitiet")
+@app.get("/api/baihoc/{baihoc_id}")
 def get_chitiet_baihoc(baihoc_id: str, user_id: str, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_chi_tiet_bai_hoc(db_conn, baihoc_id, user_id)
@@ -113,7 +113,7 @@ def update_progress(request: UpdateProgressRequest, db_conn = Depends(get_db_con
         "message": f"Đã cập nhật trạng thái {request.trang_thai} cho {request.item_id}"
     }
 
-@app.get("/api/quiz/{baihoc_id}")
+@app.get("/api/baihoc/{baihoc_id}/quiz")
 def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_danh_sach_cau_hoi(db_conn, baihoc_id)
@@ -134,7 +134,7 @@ def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")
 
-@app.post("/api/quiz/{baihoc_id}/submit")
+@app.post("/api/baihoc/{baihoc_id}/quiz/submit")
 def nop_bai_kiem_tra(baihoc_id: str, request: NopBaiRequest, db_conn = Depends(get_db_connection)):
     try:
         ket_qua = repositories.submit_quiz(
@@ -176,3 +176,23 @@ def xem_chi_tiet_lich_su(baihoc_id: str, lambai_id: int, db_conn = Depends(get_d
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")
+
+@app.get("/api/test-db")
+def kiem_tra_danh_sach_bang(db_conn = Depends(get_db_connection)):
+    try:
+        with db_conn.cursor() as cursor:
+            cursor.execute("""
+                SELECT table_schema, table_name 
+                FROM information_schema.tables 
+                WHERE table_schema NOT IN ('information_schema', 'pg_catalog');
+            """)
+            tables = cursor.fetchall()
+            
+            danh_sach = [{"schema": row[0], "ten_bang": row[1]} for row in tables]
+            
+            return {
+                "tong_so_bang": len(danh_sach),
+                "danh_sach_bang_dang_co": danh_sach
+            }
+    except Exception as e:
+        return {"lỗi": str(e)}
