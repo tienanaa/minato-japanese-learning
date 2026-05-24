@@ -5,11 +5,15 @@
     width: 350px;
     height: fit-content;
     flex-shrink: 0;
-    background-color: #E8F2F4;
+     background-image: url('/bg.jpg'); /* Đường dẫn tính từ thư mục public */
+  background-size: cover;      /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
+  background-position: center; /* Giữ tâm bức ảnh luôn ở chính giữa màn hình */
+  background-repeat: no-repeat;/* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
+  background-attachment: fixed;/* Giữ ảnh nền cố định khi cuộn trang (nếu có) */
     margin: 109px 125px;
     border-radius: 12px;
-border: 1px solid rgba(191, 200, 205, 0.30);
-box-shadow: 0 25px 50px -12px rgba(12, 103, 128, 0.05);
+    border: 1px solid rgba(191, 200, 205, 0.30);
+    box-shadow: 0 25px 50px -12px rgba(12, 103, 128, 0.05);
 }
 .ContainImg{
     
@@ -33,7 +37,7 @@ box-shadow: 0 25px 50px -12px rgba(12, 103, 128, 0.05);
     position: relative;
 }
 input{
-    width: 18rem;
+    width: 17.5rem;
     height: 35px;
     border-radius: 10px;
     border: 1px solid #E4E4E4;
@@ -47,7 +51,6 @@ input::placeholder {
     /* Biến chữ thành dạng in nghiêng */
   font-weight: 400;        /* Độ đậm nhạt của chữ */
   opacity: 1;              /* Bắt buộc phải có để hiển thị đúng màu trên Firefox */
-  padding: 10px;
 }
 .password{
     align-items: flex-start;
@@ -55,12 +58,19 @@ input::placeholder {
     flex-direction: column;
 }
 .containInput{
+    width: 350px;
+    height: fit-content;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap:5px;
     align-items: center;
     justify-content: center;
-    margin-bottom: 35px;
+    background-color: #D8EBFA;
+    margin: 0px 0px;
+    border-radius: 12px;
+    border: 1px solid rgba(191, 200, 205, 0.30);
+    box-shadow: 0 25px 50px -12px rgba(12, 103, 128, 0.05);
 }
 .btn-login{
     width: 15rem;
@@ -86,6 +96,7 @@ input::placeholder {
 }
 .Contain p{
     font-size: 15px;
+    margin-bottom: 15px;
 }
 .checkbox_save{
     width: 18rem;
@@ -96,9 +107,54 @@ input::placeholder {
     justify-content: flex-start;
 }
 .checkbox_save input{
+   background-color: #E4E4E4;
     width:15px;
     height: 15px;
+    border: 2px solid rgba(191, 200, 205, 0.30);
+
 }
 .remind{
     color:#0074D4
+}
+/* 1. KHUNG CHỨA Ô VUÔNG MÀU TÍM */
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none; /* Xóa giao diện mặc định */
+  
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  outline: none;
+  background-color: #fff;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  
+  /* 🎯 Tạo điểm neo gốc cho thành phần con (::before) ghim vào */
+  position: relative; 
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* 2. DẤU TICK TRẮNG ĐƯỢC GHIM CHẶT VÀO TÂM */
+.custom-checkbox:checked::before {
+  content: "";
+  /* 🎯 Định vị tuyệt đối để kéo dấu tích vào giữa */
+  position: absolute;
+  top: 40%;   /* Cách mép trên 40% */
+  left: 50%;  /* Cách mép trái 50% */
+  
+  /* Kích thước dấu chữ V */
+  width: 5px;
+  height: 9px;
+  
+  /* Vẽ 2 cạnh của dấu tích */
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  
+  /* 🎯 Điểm mấu chốt: Vừa xoay 45 độ, vừa dịch chuyển ngược lại nửa kích thước để vào đúng tâm */
+  transform: translate(-50%, -50%) rotate(45deg);
 }

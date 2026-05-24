@@ -1,0 +1,21 @@
+.ContainContent{
+     background-color:rgb(207, 244, 244)  ; 
+     width: 100vw;             /* Chiếm hết 100% chiều rộng màn hình */
+  min-height: 100vh;        /* Chiếm tối thiểu 100% chiều cao màn hình */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h2{
+    color: black;
+}
+.Content{
+    background-color: rgb(131, 191, 244);
+    margin-left: 5px;
+    margin-top: 50px;
+    padding: 15px 10px;
+    width: fit-content;
+    min-width: 1rem;
+    height: fit-content;
+    border-radius: 15px;
+}

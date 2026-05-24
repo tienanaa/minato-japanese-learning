@@ -1,0 +1,144 @@
+/* 1. Nhúng Font chữ tiếng Nhật từ Google Fonts để chữ Kanji hiển thị thanh thoát, chuẩn nét */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+/* 2. Áp dụng font tiếng Nhật cho class chuyên dụng */
+.font-display-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+}
+
+/* 3. Làm hiệu ứng Hover cho từng dòng từ vựng mượt mà hơn */
+.lesson-table-row {
+    transition: all 0.2s ease;
+}
+
+.lesson-table-row:hover {
+    background-color: #f8fafc; /* Màu nền xám xanh nhạt dịu mắt (Slate 50) */
+    transform: scale(1.002); /* Thêm hiệu ứng nổi nhẹ lên khi rê chuột */
+}
+
+/* 4. Cố định chiều rộng và căn giữa cho các cột (để chữ không bị xô lệch khi độ dài nghĩa tiếng Việt thay đổi) */
+.modern-vocab-table th, 
+.modern-vocab-table td {
+    vertical-align: middle; /* Căn chữ luôn nằm giữa dòng theo chiều dọc */
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* 5. Định nghĩa màu sắc nếu bạn chưa cấu hình trong Tailwind */
+.text-on-surface-variant {
+    color: #0f172a; /* Màu chữ phụ (Slate 500) */
+}
+
+.text-on-surface {
+    color: #0f172a; /* Màu chữ chính gần như đen (Slate 900) */
+}
+
+.border-outline-variant {
+    border-color: #e2e8f0; /* Đường kẻ mờ tinh tế (Slate 200) */
+}
+
+/* 6. Để hiển thị được icon "volume_up", bạn hãy đảm bảo đã nhúng Material Icons. 
+   Nếu nút nghe bị biến thành chữ "volume_up" thường, hãy thêm đoạn này: */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+}
+
+.Contain_table {
+    background-color: rgb(131, 191, 244); /* Màu nền xanh dịu mắt */
+    border-radius: 16px;       /* Bo góc cho toàn bộ khối */
+    padding: 24px;             /* Khoảng cách đệm an toàn xung quanh bảng */
+    width: 100%;               /* Co giãn tự động trên màn hình nhỏ */
+    max-width: 720px;          /* Giới hạn độ rộng tối đa của bảng trên máy tính */
+    margin: 30px auto;         /* Đưa cả khối ra chính giữa màn hình */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Đổ bóng mờ hiện đại */
+}
+
+/* Tiêu đề "Danh sách từ vựng" */
+.table-title {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f2047;
+}
+
+/* Thiết lập cấu trúc cốt lõi cho bảng */
+.table {
+    width: 100%;               /* Bảng luôn mở rộng vừa khít 100% trong lòng khối nền xanh */
+    border-collapse: collapse; /* Triệt tiêu đường viền đôi */
+    table-layout: fixed;       /* Bắt buộc các cột tuân thủ đúng tỷ lệ phần trăm */
+}
+
+/* TỶ LỆ ĐỘ RỘNG CÁC CỘT (Cộng lại bằng chuẩn 100%) */
+.col-kanji { width: 25%;  }
+.col-hiragana { width: 25%; }
+.col-meaning { width: 50%; }
+
+
+/* Định dạng chung cho cả tiêu đề (th) và nội dung (td) để thẳng hàng tăm tắp */
+/* Thiết kế cho hàng tiêu đề (th) */
+.table th {
+    padding-bottom: 14px;
+    color: rgba(15, 23, 42, 0.6); /* Màu chữ phụ mờ tinh tế */
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;    /* Giãn chữ tiêu đề nhẹ */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4); /* Đường gạch ngang mờ */
+}
+
+/* Thiết kế cho hàng dữ liệu (td) */
+.BodyTable td {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    color: #120606 !important;            /* Màu chữ chính đen đậm */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25); /* Đường ngăn cách mỏng giữa các hàng */
+}
+
+/* Phông chữ to chuyên dụng cho Hán tự Nhật Bản */
+.cell-kanji {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.cell-hiragana {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.cell-meaning {
+    font-size: 22px;
+}
+
+/* Hiệu ứng hover highlight khi di chuột qua từng dòng từ vựng */
+.vocab-row {
+    transition: background-color 0.2s ease;
+}
+
+
+
+/* Cấu hình căn giữa RIÊNG BIỆT cho cột Nghe */
+.col-audio,
+.col-audio {
+    text-align: center !important;
+    padding-left: 0 !important;
+}
+
+
+/* Thiết kế nút bấm vòng tròn phát âm thanh siêu mượt */
+
