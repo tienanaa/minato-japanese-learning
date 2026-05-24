@@ -1,9 +1,11 @@
 from fastapi import FastAPI, Depends, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from typing import Optional, List
 from database import get_db_connection
 import repositories
-from typing import Optional, List
+import ai_service
+
 
 app = FastAPI(title="Minato - Hệ thống học Từ vựng và Hán tự Tiếng Nhật")
 
@@ -31,6 +33,10 @@ class ChiTietNopBai(BaseModel):
 class NopBaiRequest(BaseModel):
     btontapid: str
     chi_tiet: List[ChiTietNopBai]
+
+class ChatRequest(BaseModel):
+    user_id: str
+    message: str
 
 @app.post("/api/auth/login")
 def login(request: LoginRequest, db_conn = Depends(get_db_connection)):
@@ -194,3 +200,12 @@ def kiem_tra_danh_sach_bang(db_conn = Depends(get_db_connection)):
             }
     except Exception as e:
         return {"lỗi": str(e)}
+
+@app.post("/api/chat")
+async def chat_with_minato(request: ChatRequest):
+    ai_reply = ai_service.ask_minato(request.user_id, request.message)
+
+    return {
+        "status": "success",
+        "reply": ai_reply
+    }

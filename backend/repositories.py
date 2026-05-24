@@ -19,12 +19,15 @@ def login_user(conn, username, password):
 def get_dashboard_info(conn,user_id):
     with conn.cursor() as cursor:
         query_view = """
-            SELECT NgayHoc, SoLuongKanjiDaHoc, SoLuongTuVungDaHoc, HoanThanhMucTieu 
-            FROM TienTrinhNguoiDung 
-            WHERE UserID = %s AND NgayHoc = CURRENT_DATE
+            SELECT CURRENT_DATE AS Ngay, U.TrinhDo, U.MucTieuK, U.MucTieuTV, T.SoLuongKanjiDaHoc, T.SoLuongTuVungDaHoc, T.HoanThanhMucTieu 
+            FROM NGUOIDUNG U LEFT JOIN TienTrinhNguoiDung T on T.userID=U.userID and T.NgayHoc = CURRENT_DATE
+            WHERE U.UserID = %s 
         """
         cursor.execute(query_view, (user_id,))
         today_progress = cursor.fetchone()
+
+        if not today_progress:
+            return None
 
         cursor.execute("SELECT public.count_kanji(%s)", (user_id,))
         total_kanji = cursor.fetchone()[0]
@@ -34,10 +37,13 @@ def get_dashboard_info(conn,user_id):
 
         return { 
             "tien_do_hom_nay": {
-                "ngay": today_progress[0] if today_progress else None,
-                "kanji_da_hoc": today_progress[1] if today_progress else 0,
-                "tu_vung_da_hoc": today_progress[2] if today_progress else 0,
-                "hoan_thanh": today_progress[3] if today_progress else False
+                "ngay": today_progress[0],
+                "trinh_do":today_progress[1],
+                "muc_tieu_Kanji":today_progress[2],
+                "muc_tieu_tu_vung":today_progress[3],
+                "kanji_da_hoc": today_progress[4] if today_progress else 0,
+                "tu_vung_da_hoc": today_progress[5] if today_progress else 0,
+                "hoan_thanh": today_progress[6] if today_progress else False
             },
             "tong_tich_luy": {
                 "tong_kanji_da_thuoc": total_kanji,
