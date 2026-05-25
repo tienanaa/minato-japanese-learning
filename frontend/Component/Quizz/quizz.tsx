@@ -114,6 +114,7 @@ export default function Quizz(){
 
       if (response.ok && json.status === "success") {
         alert(`🎉 Nộp bài thành công! Điểm của bạn: ${finalScore}`);
+         navigate('/Result', {state:{ score: finalScore }})
         // Thích thì điều hướng về trang bài học
         // navigate("/lesson");
       } else {
@@ -135,7 +136,7 @@ export default function Quizz(){
       
       // Tiến hành gọi API nộp bài tự động khi bấm câu cuối
       handleSubmitQuiz(currentChoices, currentScore);
-      navigate('/Result', {state:{score}})
+     
     }
   };
 
@@ -159,8 +160,7 @@ export default function Quizz(){
           <button
             key={answer.luachonid}
             className='btn-answer'
-            onClick={() => handleSelectAnswer(danhSachCauHoi[countAnswer].cauhoiid, answer.luachonid, answer.dapandung)}
-          >
+            onClick={() => handleSelectAnswer(danhSachCauHoi[countAnswer].cauhoiid, answer.luachonid, answer.dapandung)}>
             {answer.noidungluachon}
           </button>
         ))}

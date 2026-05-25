@@ -50,6 +50,7 @@ export default function Login() {
 
         alert("Đăng nhập thành công!");
         window.location.href = "/home";
+        navigate('/home')
       } else {
         // Trường hợp 2: Backend báo lỗi (Ví dụ: 401 Unauthorized)
         // FastAPI HTTPException trả về JSON có dạng { "detail": "Nội dung lỗi" }

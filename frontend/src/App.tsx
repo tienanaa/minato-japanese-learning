@@ -6,7 +6,7 @@ import Lesson from "../Component/Lesson/lesson";
 import ContentLesson from "../Component/ContentLesson/contentLesson";
 import Quizz from "../Component/Quizz/quizz";
 import ChatBox from "../Component/ChatBox/ChatBox";
-import Quizz from "../Component/Quizz/quizz";
+import Result_ from "../Component/Result/result";
 function App() {
   const location = useLocation();
 
@@ -28,7 +28,7 @@ function App() {
         <Route path="/lesson" element={<Lesson />} />
         <Route path="/ContentLesson" element={<ContentLesson />} />
         <Route path="/Quizz" element={<Quizz />} />
-        <Route path="/Result" element={<Result/>} />
+        <Route path="/Result" element={ <Result_/> } />
       </Routes>
 
       {location.pathname !== "/" && (
