@@ -138,3 +138,8 @@ ADD CONSTRAINT chong_trung_chitiet_kanji UNIQUE (TienDoID, KanjiID);
 ALTER TABLE public.TIENDOHANGNGAYCHITIET 
 ADD CONSTRAINT chong_trung_chitiet_tuvung UNIQUE (TienDoID, TuVungID);
 
+-- reset tự động tăng của ctlambaiid
+SELECT setval(
+    pg_get_serial_sequence('chitietlambai', 'ctlambaiid'), 
+    COALESCE(MAX(ctlambaiid), 1)
+) FROM chitietlambai;

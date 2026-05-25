@@ -1,66 +1,61 @@
-.navbar{
-   display: flex;
+.navbar {
+  display: flex;
   justify-content: center; /* Căn các nút bấm ra chính giữa thanh (hoặc dùng space-around để rải đều) */
-  align-items: center;     /* Căn giữa các nút theo chiều dọc */
-  
-  width: 100%;             /* Ăn theo chiều rộng full của .Contain-Home */
-  height: 50px;            /* Chiều cao của thanh điều hướng */
-  padding: 0 20px;         /* Tạo khoảng cách thụt lề 2 bên cánh để các nút không dính sát viền */
+  align-items: center; /* Căn giữa các nút theo chiều dọc */
+  width: 100%; /* Ăn theo chiều rộng full của .Contain-Home */
+  height: 50px; /* Chiều cao của thanh điều hướng */
+  padding: 0 20px; /* Tạo khoảng cách thụt lề 2 bên cánh để các nút không dính sát viền */
   box-sizing: border-box;
-  
-  border-bottom: 1px solid #e5e4e7; /* Đường kẻ mờ dưới chân navbar (tùy chọn) */
-  background-color: #D8EBFA;
+  border-bottom: 1px solid #e5e4e7;
+  background-color: #0074d4;
 }
 .navbar .btn {
-  flex: 1;                 /* 🎯 DÒNG QUYẾT ĐỊNH: Ép các nút giãn đều lấp đầy thanh ngang */
-  padding: 15px 0;         /* Chỉ cần padding trên/dưới, chiều ngang tự giãn */
+  flex: 1; /* 🎯 DÒNG QUYẾT ĐỊNH: Ép các nút giãn đều lấp đầy thanh ngang */
+  padding: 15px 0; /* Chỉ cần padding trên/dưới, chiều ngang tự giãn */
   text-align: center;
   background: transparent;
   border: none;
   cursor: pointer;
   font-size: 16px;
   transition: all 0.2s;
-  color: black;
-  
-  /* Nếu muốn giữa các nút có đường vạch ngăn cách nhỏ */
-  border-right: 1px solid #e5e4e7; 
+  color: white;
 }
 
 /* Xóa đường vạch ngăn cách ở nút cuối cùng */
 .navbar .btn:last-child {
   border-right: none;
 }
-.Contain-Home{
-    width: 100%;
+.Contain-Home {
+  width: 100%;
 }
-.ContainInHome{
-    background-image: url('/bg.jpg'); /* Đường dẫn tính từ thư mục public */
-  background-size: cover;      /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
+.ContainInHome {
+  background-image: url("/bg.jpg"); /* Đường dẫn tính từ thư mục public */
+  background-size: cover; /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
   background-position: center; /* Giữ tâm bức ảnh luôn ở chính giữa màn hình */
-  background-repeat: no-repeat;/* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
-  background-attachment: fixed;/* Giữ ảnh nền cố định khi cuộn trang (nếu có) */
- width: 100vw;             /* Chiếm hết 100% chiều rộng màn hình */
-  min-height: 100vh;        /* Chiếm tối thiểu 100% chiều cao màn hình */
+  background-repeat: no-repeat; /* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
+  background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn trang (nếu có) */
+  width: 100vw; /* Chiếm hết 100% chiều rộng màn hình */
+  min-height: 100vh; /* Chiếm tối thiểu 100% chiều cao màn hình */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.Contain-title h1{
-    color: #0074D4 ;
-    font-size: 60px;
+.Contain-title h1 {
+  color: #0074d4;
+  font-size: 60px;
   line-height: 1.3;
-    word-wrap: break-word;       /* Cho phép bẻ đôi từ quá dài nếu không đủ chỗ trống */
-  overflow-wrap: break-word;   /* Chuẩn hiện đại giúp xử lý xuống dòng an toàn */
+  word-wrap: break-word; /* Cho phép bẻ đôi từ quá dài nếu không đủ chỗ trống */
+  overflow-wrap: break-word; /* Chuẩn hiện đại giúp xử lý xuống dòng an toàn */
   white-space: normal;
 }
-.Contain-title{
-    margin-top: 3.75em;
-    margin-left: 4rem;
-    width: 30rem;
-    height: fit-content;
+.Contain-title {
+  margin-top: 3.75em;
+  margin-left: 4rem;
+  width: 30rem;
+  height: fit-content;
 }
-.Contain-title p{
-    font-size: 20px;
+.Contain-title p {
+  font-size: 20px;
   line-height: 1.5;
   color: black;
 }
