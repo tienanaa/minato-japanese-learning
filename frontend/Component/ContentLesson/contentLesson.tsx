@@ -76,7 +76,10 @@ const loaiBH = state?.loaiBH || "TuVung";
   }, [userId, lessonId]);
 
     const GotoQuizz=()=>{
-        navigate('/Quizz')
+
+
+      navigate('/Quizz',  { state: {lessonId}})
+
     }
 
     return(

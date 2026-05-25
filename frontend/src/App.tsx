@@ -6,6 +6,7 @@ import Lesson from "../Component/Lesson/lesson";
 import ContentLesson from "../Component/ContentLesson/contentLesson";
 import ChatBox from "../Component/ChatBox/ChatBox";
 import Quizz from "../Component/Quizz/quizz";
+import Result from '../Component/Result/result';
 function App() {
   return (
     // Thêm thẻ mở <> ở đây
@@ -26,6 +27,7 @@ function App() {
         <Route path="/lesson" element={<Lesson />} />
         <Route path="/ContentLesson" element={<ContentLesson />} />
         <Route path="/Quizz" element={<Quizz />} />
+        <Route path="/Result" element={<Result/>} />
       </Routes>
 
       {/* 🎯 NHÉT CHATBOX VÀO ĐÂY (Nằm ngoài Routes nhưng nằm trong thẻ <>) */}

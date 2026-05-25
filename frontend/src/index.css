@@ -62,11 +62,13 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  overflow: visible;
+  overflow-y: visible; /* Cho phép nội dung kéo dài xuống dưới */
+  overflow-x: hidden;  /* KHÔNG cho phép cuộn ngang ở tầng root */
 }
 
 body {
-  overflow-y: auto; 
+  overflow-y: auto;    /* Tự động xuất hiện thanh cuộn dọc khi thiếu không gian */
+  overflow-x: hidden;
   margin: 0;
 }
 

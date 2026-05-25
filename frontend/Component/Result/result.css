@@ -1,0 +1,23 @@
+.ContainResult{
+     background-color:azure  ; 
+  background-size: cover;      /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
+  background-position: center; /* Giữ tâm bức ảnh luôn ở chính giữa màn hình */
+  background-repeat: no-repeat;/* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
+  background-attachment: fixed;/* Giữ ảnh nền cố định khi cuộn trang (nếu có) */
+ width: 100vw;             /* Chiếm hết 100% chiều rộng màn hình */
+  min-height: 100vh;        /* Chiếm tối thiểu 100% chiều cao màn hình */
+  margin: 0;
+  padding: 0;
+}
+.resultQuizz{
+    width:35rem ;
+    height: 25rem;
+    margin: 10rem 3rem ;
+    background-color:rgb(223, 240, 243) ;
+    border-radius: 20px;
+}
+.resultQuizz h2{
+    padding:15px;
+    font-size: 25px;
+    color: rgb(85, 85, 235);
+}
