@@ -37,7 +37,27 @@ class NopBaiRequest(BaseModel):
 class ChatRequest(BaseModel):
     user_id: str
     message: str
-
+# Kiem tra danh sach bang
+@app.get("/api/test-db")
+def kiem_tra_danh_sach_bang(db_conn = Depends(get_db_connection)):
+    try:
+        with db_conn.cursor() as cursor:
+            cursor.execute("""
+                SELECT table_schema, table_name 
+                FROM information_schema.tables 
+                WHERE table_schema NOT IN ('information_schema', 'pg_catalog');
+            """)
+            tables = cursor.fetchall()
+            
+            danh_sach = [{"schema": row[0], "ten_bang": row[1]} for row in tables]
+            
+            return {
+                "tong_so_bang": len(danh_sach),
+                "danh_sach_bang_dang_co": danh_sach
+            }
+    except Exception as e:
+        return {"lỗi": str(e)}
+    
 @app.post("/api/auth/login")
 def login(request: LoginRequest, db_conn = Depends(get_db_connection)):
     user = repositories.login_user(db_conn, request.username, request.password)
@@ -56,6 +76,9 @@ def get_dashboard(user_id: str, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_dashboard_info(db_conn, user_id)
         
+        if not repositories.check_user_exists(db_conn, user_id):
+            raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
+        
         return {
             "status": "success",
             "message": "Lấy dữ liệu Dashboard thành công",
@@ -68,6 +91,9 @@ def get_dashboard(user_id: str, db_conn = Depends(get_db_connection)):
 def get_baihoc(user_id: str, trinh_do: Optional[str] = None, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_danh_sach_bai_hoc(db_conn,user_id, trinh_do)
+        
+        if not repositories.check_user_exists(db_conn, user_id):
+            raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
         
         return {
             "status": "success",
@@ -82,6 +108,9 @@ def get_chitiet_baihoc(user_id: str, baihoc_id: str,  db_conn = Depends(get_db_c
     try:
         data = repositories.get_chi_tiet_bai_hoc(db_conn, baihoc_id, user_id)
         
+        if not repositories.check_user_exists(db_conn, user_id):
+            raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
+        
         if not data:
             raise HTTPException(status_code=404, detail="Không tìm thấy mã bài học này")
             
@@ -95,6 +124,9 @@ def get_chitiet_baihoc(user_id: str, baihoc_id: str,  db_conn = Depends(get_db_c
 
 @app.post("/api/users/{user_id}/progress")
 def update_progress(user_id: str, request: UpdateProgressRequest, db_conn = Depends(get_db_connection)):
+    if not repositories.check_user_exists(db_conn, user_id):
+            raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
+        
     if request.loai not in ['Kanji', 'TuVung']:
         raise HTTPException(status_code=400, detail="Loại dữ liệu phải là 'Kanji' hoặc 'TuVung'")
         
@@ -141,6 +173,9 @@ def get_quiz_questions(baihoc_id: str, db_conn = Depends(get_db_connection)):
 @app.post("/api/users/{user_id}/baihoc/{baihoc_id}/quiz/submit")
 def nop_bai_kiem_tra(user_id: str, baihoc_id: str, request: NopBaiRequest, db_conn = Depends(get_db_connection)):
     try:
+        if not repositories.check_user_exists(db_conn, user_id):
+            raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
+        
         ket_qua = repositories.submit_quiz(
             db_conn, 
             baihoc_id,
@@ -162,7 +197,7 @@ def nop_bai_kiem_tra(user_id: str, baihoc_id: str, request: NopBaiRequest, db_co
         raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")
 
 @app.get("/api/users/{user_id}/quiz/{lambai_id}")
-def xem_chi_tiet_lich_su(baihoc_id: str, lambai_id: int, db_conn = Depends(get_db_connection)):
+def xem_chi_tiet_lich_su(lambai_id: int, db_conn = Depends(get_db_connection)):
     try:
         data = repositories.get_chi_tiet_lich_su(db_conn, lambai_id)
         
@@ -180,26 +215,6 @@ def xem_chi_tiet_lich_su(baihoc_id: str, lambai_id: int, db_conn = Depends(get_d
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")
-
-@app.get("/api/test-db")
-def kiem_tra_danh_sach_bang(db_conn = Depends(get_db_connection)):
-    try:
-        with db_conn.cursor() as cursor:
-            cursor.execute("""
-                SELECT table_schema, table_name 
-                FROM information_schema.tables 
-                WHERE table_schema NOT IN ('information_schema', 'pg_catalog');
-            """)
-            tables = cursor.fetchall()
-            
-            danh_sach = [{"schema": row[0], "ten_bang": row[1]} for row in tables]
-            
-            return {
-                "tong_so_bang": len(danh_sach),
-                "danh_sach_bang_dang_co": danh_sach
-            }
-    except Exception as e:
-        return {"lỗi": str(e)}
 
 @app.post("/api/chat")
 async def chat_with_minato(request: ChatRequest):
