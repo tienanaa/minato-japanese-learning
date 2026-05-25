@@ -1,5 +1,11 @@
 import random
 import string
+
+def check_user_exists(conn, user_id):
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT 1 FROM NGUOIDUNG WHERE UserID = %s", (user_id,))
+        return cursor.fetchone() is not None
+    
 def login_user(conn, username, password):
     with conn.cursor() as cursor:
         query = """
