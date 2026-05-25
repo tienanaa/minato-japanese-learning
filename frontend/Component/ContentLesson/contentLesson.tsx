@@ -8,11 +8,8 @@ type VocabProp={
     cachdoc:string
     mean: string,
 }
-type ContentLessonPro={
-    loai:string,
 
-}
-export default function ContentLesson({loai}:ContentLessonPro){  
+export default function ContentLesson(){  
    const location = useLocation();
 
 // Ép kiểu an toàn cho state nhận về từ router
@@ -39,11 +36,12 @@ const lessonId = state?.lessonId || "BH001";
           const rawList = detailData.danh_sach_chi_tiet || [];
           
           const formattedList: VocabProp[] = rawList.map((item: any, index: number) => ({
-            id: item.vocab_id || item.baihocid || String(index + 1), // Dự phòng nếu không có id riêng
-            vocab: item.kanji || "",
-            cachdoc: item.hiragana || "",
+            id: item.tuvungid|| item.baihocid || String(index + 1), // Dự phòng nếu không có id riêng
+            vocab: item.tuvung || "",
+            cachdoc: item.cachdoc || "",
             mean: item.vietnamese || item.nghia || ""
           }));
+          console.log(formattedList)
 
           setDanhSachTuVung(formattedList);
         } 

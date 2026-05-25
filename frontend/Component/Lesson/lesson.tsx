@@ -88,7 +88,7 @@ export default function Lesson(){
         </div>
         <div className='ContainListLesson'>
           {danhSachBaiHoc.map((baihoc) => (
-            <FrameLesson key={baihoc.baihocid} name={baihoc.tenbai} GotoContent={GotoContent(baihoc.baihocid)} />
+            <FrameLesson key={baihoc.baihocid} name={baihoc.tenbai} GotoContent={() => GotoContent(baihoc.baihocid)} />
           ))}
         </div>
         </div>
