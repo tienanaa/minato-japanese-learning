@@ -1,4 +1,4 @@
-.ContainContent{
+.ContainQuizz{
    height: auto;          /* <--- THÊM MỚI */
     height: auto;          /* Để chiều cao tự động co giãn theo nội dung */
     min-height: 100vh;
@@ -9,21 +9,4 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-h2{
-    color: black;
-}
-.Content{
-    margin: 50px auto 0 auto;
-    width: fit-content;
-    min-width: 1rem;
-    /* LOẠI BỎ hoàn toàn dòng: height: fit-content */
-    border-radius: 15px;
-
-    background-color: rgb(131, 191, 244);
-    margin-left: 25px;
-    margin-top: 50px;
-    padding: 15px 10px;
-    height: auto;
-    border-radius: 15px;
 }

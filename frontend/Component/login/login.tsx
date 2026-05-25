@@ -35,12 +35,12 @@ export default function Login(){
         // Trường hợp 1: Đăng nhập thành công (Status 200)
         console.log('Đăng nhập thành công:', result);
         alert('Đăng nhập thành công!');
-        if (result.user_id) {
-          localStorage.setItem('user_id', String(result.user_id));
+        if (result.userid) {
+          localStorage.setItem('user_id', String(result.userid));
         } 
         // Cách B: Nếu bạn bọc dữ liệu trong cụm "data" (Ví dụ: { "status": "success", "data": { "user_id": "1" } })
-        else if (result.data && result.data.user_id) {
-          localStorage.setItem('user_id', String(result.data.user_id));
+        else if (result.data && result.data.userid) {
+          localStorage.setItem('userid', String(result.data.userid));
         }
 
         // Tiện tay lưu luôn toàn bộ thông tin user dạng JSON để sau này hiển thị Avatar hoặc Tên lên Header
@@ -82,11 +82,11 @@ export default function Login(){
                 </div>
                 <div className='checkbox_save'>
                     <input type="checkbox" id="ghi_nho" className='custom-checkbox'></input>
-                    <label htmlFor="ghi_nho">Ghi nho dang nhap</label>
+                    <label htmlFor="ghi_nho">Ghi nhớ đăng nhập</label>
                 </div>
                 <button className="btn-login" onClick={(e)=>LoginForUser(e)} disabled={isLoading}>Đăng nhập</button>
 
-                <p><a>quên mật khẩu</a></p>
+                <p><a>Quên mật khẩu</a></p>
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',    /* Căn đường kẻ thẳng hàng với chữ */

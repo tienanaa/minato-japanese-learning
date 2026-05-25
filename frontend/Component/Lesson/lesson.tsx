@@ -17,7 +17,7 @@ export default function Lesson(){
   const [error, setError] = useState<string | null>(null);
 
   // Lấy user_id thực tế đã lưu từ trang Login
-  const userId = localStorage.getItem("user_id") || "1"; 
+  const userId = localStorage.getItem("userid") || "U02";
   const trinhDo = "N5"; // Bạn có thể linh hoạt thay đổi "N4", "N3"...
 
   useEffect(() => {
@@ -52,8 +52,8 @@ export default function Lesson(){
   const returnHome = () => {
     navigate('/home');
   }
-  const GotoContent = (idCuaBaiHoc: string) => {
-  navigate('/ContentLesson', { state: { lessonId: idCuaBaiHoc } });
+  const GotoContent = (idCuaBaiHoc: string, loaiBh:string) => {
+  navigate('/ContentLesson', { state: { lessonId: idCuaBaiHoc, loaiBH:loaiBh } });
 };
 
   if (loading) return <div className="text-center p-5">Đang tải danh sách bài học...</div>;
@@ -88,7 +88,7 @@ export default function Lesson(){
         </div>
         <div className='ContainListLesson'>
           {danhSachBaiHoc.map((baihoc) => (
-            <FrameLesson key={baihoc.baihocid} name={baihoc.tenbai} GotoContent={() => GotoContent(baihoc.baihocid)} />
+            <FrameLesson key={baihoc.baihocid} name={baihoc.tenbai} GotoContent={() => GotoContent(baihoc.baihocid, baihoc.loai)} />
           ))}
         </div>
         </div>
