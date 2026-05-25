@@ -35,9 +35,10 @@ export default function Login() {
 
         const userData = result.data || {};
 
-        const safeUserId = userData.UserID;
-        const safeUserName = userData.Username;
-
+        const safeUserId =
+          userData.UserID || userData.userid || userData.userId;
+        const safeUserName =
+          userData.Username || userData.username || userData.userName;
         if (safeUserId) {
           localStorage.setItem("userId", String(safeUserId));
         }
