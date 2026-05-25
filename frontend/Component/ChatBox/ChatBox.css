@@ -1,29 +1,24 @@
 /* --- LỚP VỎ GHIM GÓC MÀN HÌNH --- */
 .minato-floating-wrapper {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 0px;
+  right: 20px;
   z-index: 99999;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-/* Nút bong bóng chat khi đóng */
 .floating-chat-icon {
-  background-color: #1e90ff;
-  color: white;
+  background: transparent;
   border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
   cursor: pointer;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  padding-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
   transition: transform 0.2s;
+  filter: drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.3));
 }
 
 .floating-chat-icon:hover {
@@ -36,7 +31,7 @@
   height: 500px;
   display: flex;
   flex-direction: column;
-  background-color: #f4f9ff; /* Chữa bệnh trong suốt */
+  background-color: #f4f9ff;
   border: 1px solid #e0eeff;
   border-radius: 16px;
   overflow: hidden;
@@ -48,24 +43,26 @@
 /* --- HEADER --- */
 .chat-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: #1e90ff;
   padding: 15px 20px;
-  color: white;
+  position: relative;
 }
 
 .chat-title {
   margin: 0;
   font-size: 18px;
   font-weight: bold;
+  color: white;
 }
 
 .close-btn {
+  position: absolute;
+  right: 20px;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 16px;
 }
 
 /* --- NỘI DUNG CHAT --- */
@@ -80,7 +77,7 @@
 }
 
 .welcome-section {
-  text-align: left;
+  text-align: center;
 }
 
 .greeting-title {
@@ -95,10 +92,12 @@
   color: #666;
 }
 
+/* --- KHU VỰC GỢI Ý --- */
 .suggestion-menu {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
 }
 
 .menu-btn {
@@ -109,10 +108,15 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  width: 260px; /* Ép độ rộng để icon thẳng hàng */
 }
 
-.emoji-icon {
-  font-size: 24px;
+.modern-icon-box {
+  width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .menu-text-wrapper {
@@ -120,35 +124,36 @@
   border-radius: 10px;
   padding: 10px 15px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  flex: 1; /* Kéo giãn cho 2 nút bằng nhau */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-text {
   font-size: 14px;
   font-weight: 500;
+  color: #333333; /* Bắt buộc để hiện chữ màu xám đen */
 }
 
-/* --- KHU VỰC NHẬP TIN NHẮN --- */
+/* --- KHU VỰC NHẬP TIN NHẮN (FOOTER ĐÃ ĐƯỢC LÀM MỚI) --- */
 .chat-input-area {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: white;
+  background-color: #e6f2ff; /* Nền xanh nhạt dịu mắt, hòa hợp với body */
   padding: 15px;
-  border-top: 1px solid #e0eeff;
-}
-
-.action-icon {
-  font-size: 20px;
-  cursor: pointer;
+  border-top: 1px solid #cce5ff;
 }
 
 .chat-input-field {
   flex: 1;
   height: 40px;
-  border: none;
-  background: #f4f9ff;
+  border: 1px solid #cce5ff; /* Viền nhạt tạo điểm nhấn */
+  background: #ffffff; /* Nền trắng tinh giúp ô nhập liệu nổi bật */
   outline: none;
   border-radius: 20px;
   padding: 0 15px;
   font-size: 14px;
+  box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.05); /* Hiệu ứng lõm nhẹ xịn xò */
 }

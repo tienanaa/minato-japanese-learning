@@ -1,17 +1,21 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Login from "../Component/login/login";
 import Home from "../Component/home/home";
 import Lesson from "../Component/Lesson/lesson";
 import ContentLesson from "../Component/ContentLesson/contentLesson";
-import ChatBox from "../Component/ChatBox/ChatBox";
 import Quizz from "../Component/Quizz/quizz";
+import ChatBox from "../Component/ChatBox/ChatBox";
+
 function App() {
+  const location = useLocation();
+
+  const currentUserName = localStorage.getItem("userName") || "Học viên";
+  const currentUserId = localStorage.getItem("userId") || "U002";
+
   return (
-    // Thêm thẻ mở <> ở đây
     <>
       <Routes>
-        {/* 🎯 Đường dẫn mặc định (/) sẽ hiển thị trang Login */}
         <Route
           path="/"
           element={
@@ -20,17 +24,16 @@ function App() {
             </div>
           }
         />
-
-        {/* 🎯 Đường dẫn (/home) sẽ hiển thị trang tiếp theo */}
         <Route path="/home" element={<Home />} />
         <Route path="/lesson" element={<Lesson />} />
         <Route path="/ContentLesson" element={<ContentLesson />} />
         <Route path="/Quizz" element={<Quizz />} />
       </Routes>
 
-      {/* 🎯 NHÉT CHATBOX VÀO ĐÂY (Nằm ngoài Routes nhưng nằm trong thẻ <>) */}
-      <ChatBox />
-    </> // Thêm thẻ đóng </> ở đây
+      {location.pathname !== "/" && (
+        <ChatBox userName={currentUserName} userId={currentUserId} />
+      )}
+    </>
   );
 }
 
