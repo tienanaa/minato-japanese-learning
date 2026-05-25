@@ -20,7 +20,8 @@ export default function FrameLesson({ name, GotoContent}:FrameLessonProp){
                 }}/>
                 </div>
                 <span style={{
-                    fontSize:"25px",
+                    fontSize:"15px",
+                    color:"black"
 
                 }}>{name}</span>
             </button>

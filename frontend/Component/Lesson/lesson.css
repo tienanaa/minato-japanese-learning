@@ -57,6 +57,12 @@
   border-right: none;
 }
 .ContainListLesson{
+   display: grid;
+    /* Tự động lấp đầy và tự động xuống hàng dựa theo kích thước màn hình */
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+    gap: 1px;
+    grid-auto-rows: max-content;
+    row-gap: 5px;
     width: 80%;
     min-height: 25rem;
     height: fit-content;

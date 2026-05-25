@@ -1,8 +1,15 @@
 import './Vocab.css'
-
-export default function Vocab(){
-
-
+type VocabProp={
+    id: string,
+    vocab: string,
+    cachdoc:string
+    mean: string,
+}
+// Định nghĩa kiểu dữ liệu cho props nhận vào
+type VocabComponentProps = {
+  listData: VocabProp[];
+}
+export default function Vocab({listData}:VocabComponentProps){
     return(
         <>
         <div className='Contain_table'>
@@ -15,15 +22,25 @@ export default function Vocab(){
             <th className="col-meaning">NGHĨA TIẾNG VIỆT</th>
           </tr>
         </thead>
-        <tr  className="vocab-row">
-              <td className="cell-kanji">先生</td>
-              <td className="cell-hiragana">せんせい</td>
-              <td className="cell-meaning">giáo viên</td>
-
-                {/* Thay thế chữ NGHE thô sơ bằng một nút bấm có icon vòng tròn mượt mà */}
-              
-            
+        <tbody className="BodyTable">
+          {/* Kiểm tra nếu mảng trống thì báo chưa có dữ liệu */}
+          {listData.length === 0 ? (
+            <tr>
+              <td colSpan={4} style={{ textAlign: 'center', padding: '20px', color: '#0f2047' }}>
+                Bài học này hiện tại chưa có từ vựng.
+              </td>
             </tr>
+          ) : (
+            /* MAP CÁC TỪ VỰNG TỪ BACKEND VÀO ĐÂY */
+            listData.map((item) => (
+              <tr key={item.id} className="vocab-row">
+                <td className="cell-kanji">{item.vocab }</td>
+                <td className="cell-hiragana">{item.cachdoc}</td>
+                <td className="cell-meaning">{item.mean}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
       </table>
     {/* <table className="table">
       <thead>

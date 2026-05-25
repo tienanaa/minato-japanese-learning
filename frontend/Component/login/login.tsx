@@ -7,6 +7,7 @@ export default function Login(){
     const [username,saveUserName]=useState<string>("")
     const [password, savePassword]=useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    
     const navigate= useNavigate();
     const LoginForUser = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,7 +35,16 @@ export default function Login(){
         // Trường hợp 1: Đăng nhập thành công (Status 200)
         console.log('Đăng nhập thành công:', result);
         alert('Đăng nhập thành công!');
-        
+        if (result.user_id) {
+          localStorage.setItem('user_id', String(result.user_id));
+        } 
+        // Cách B: Nếu bạn bọc dữ liệu trong cụm "data" (Ví dụ: { "status": "success", "data": { "user_id": "1" } })
+        else if (result.data && result.data.user_id) {
+          localStorage.setItem('user_id', String(result.data.user_id));
+        }
+
+        // Tiện tay lưu luôn toàn bộ thông tin user dạng JSON để sau này hiển thị Avatar hoặc Tên lên Header
+        localStorage.setItem('user_info', JSON.stringify(result));
         // Lưu thông tin user hoặc token nếu cần
         // localStorage.setItem('user', JSON.stringify(result.data));
 
