@@ -151,6 +151,7 @@
   height: fit-content;
 }
 .Contain-title p {
+  margin-left: 35px;
   font-size: 20px;
   line-height: 1.5;
   color: black;

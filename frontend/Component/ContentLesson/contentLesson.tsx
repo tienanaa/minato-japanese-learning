@@ -148,9 +148,8 @@ const tenBH = state?.tenBH|| "Bai 1";
             <img src="/logo_rv_bg.png" alt="Logo Minato" className="nav-logo" />
             <span className="nav-minato">Minato</span>
           </div>
-          <div className="nav-profile-section">
-            <div className="nav-links-section">
-            <button className="btn">Trang chủ</button>
+          <div className="nav-links-section">
+            <button className="btn" onClick={()=>navigate('/home')} >Trang chủ</button>
             <button className="btn" >
               Bài học
             </button>
@@ -158,12 +157,13 @@ const tenBH = state?.tenBH|| "Bai 1";
             <button className="btn">Bảng xếp hạng</button>
             <button className="btn">Trợ giúp</button>
           </div>
+          <div className="nav-profile-section">
             {/* Các Icon */}
             <div className="nav-icons">
               <Bell size={22} className="icon-action" />
               <Settings size={22} className="icon-action" />
             </div>
-            
+
             {/* Vạch kẻ dọc */}
             <div className="nav-divider"></div>
 
