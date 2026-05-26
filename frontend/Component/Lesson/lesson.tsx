@@ -83,6 +83,7 @@ export default function Lesson() {
             </button>
             <button className="btn">Luyện tập</button>
             <button className="btn">Bảng xếp hạng</button>
+            <button className="btn">Trợ giúp</button>
           </div>
           <div className="nav-profile-section">
             {/* Các Icon */}

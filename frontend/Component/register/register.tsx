@@ -66,7 +66,7 @@ export default function Register() {
       className="Contain"
       style={{ marginTop: "30px", marginBottom: "30px" }}
     >
-      <div className="containInput" style={{ padding: "20px 0" }}>
+      <div className="containInput" style={{ padding: "20px 0", width:"fit-content" }}>
         <div className="ContainImg">
           <img src="../../public/logo-movebg.png" alt="Logo" />
         </div>
@@ -126,7 +126,7 @@ export default function Register() {
           </div>
 
           <div className="register-input-group">
-            <label>Kanji:</label>
+            <label>Mục tiêu Kanji:</label>
             <input
               type="number"
               min="1"
@@ -137,7 +137,7 @@ export default function Register() {
           </div>
 
           <div className="register-input-group">
-            <label>Từ vựng:</label>
+            <label>Mục tiêu từ vựng:</label>
             <input
               type="number"
               min="1"
