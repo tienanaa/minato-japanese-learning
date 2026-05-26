@@ -2,38 +2,58 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap:15px;
-   background-color:azure  ; 
-  background-size: cover;      /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
-  background-position: center; /* Giữ tâm bức ảnh luôn ở chính giữa màn hình */
-  background-repeat: no-repeat;/* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
-  background-attachment: fixed;/* Giữ ảnh nền cố định khi cuộn trang (nếu có) */
- width: 100vw;             /* Chiếm hết 100% chiều rộng màn hình */
-  min-height: 100vh;        /* Chiếm tối thiểu 100% chiều cao màn hình */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    gap: 10px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3d5e8 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .ContainTitleLesson{
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 80%;
+    justify-content: flex-start;
+    width: 85%;
+    padding: 20px 30px;
+    margin-top: 20px;
+    background: linear-gradient(135deg, #0074d4 0%, #0056a8 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 116, 212, 0.25);
+    gap: 20px;
+}
+
+.ContainTitleLesson span {
+    color: white;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.ContainTitleLesson svg {
+    color: white;
+    width: 5rem;
     height: 5rem;
-    background-color: #D8EBFA;
-    border-radius: 10px;
+    flex-shrink: 0;
 }
 
 .ContainListLesson{
-   display: grid;
-    /* Tự động lấp đầy và tự động xuống hàng dựa theo kích thước màn hình */
-    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
-    gap: 1px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
     grid-auto-rows: max-content;
-    row-gap: 5px;
-    width: 80%;
+    width: 85%;
     min-height: 25rem;
     height: fit-content;
-    background-color: #D8EBFA;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
 }

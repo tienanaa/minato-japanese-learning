@@ -155,3 +155,36 @@
   line-height: 1.5;
   color: black;
 }
+.Dasboard{
+  position: absolute;
+  top: 5rem;
+  right: 50px;
+  background-color: rgba(0, 116, 212, 0.85);
+  width: fit-content;
+  height: fit-content;
+  opacity: 1;
+  padding: 15px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.Dasboard p{
+  display: flex;
+  flex-direction: row;
+  opacity: 100%;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+}
+.Dasboard h3{
+  margin-top: 15px;
+  font-size: 35px;
+}
+
+.dashboard-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 100%;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  width: 100%;
+}

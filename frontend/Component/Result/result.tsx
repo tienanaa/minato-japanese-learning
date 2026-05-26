@@ -25,7 +25,7 @@ export default function Result(){
     if (!LamBaiID) {
       return;
     }
-    console.log("lam bai id" ,LamBaiID)
+    console.log("lam bai id", LamBaiID);
     const fetchDetailHistory = async () => {
       try {
         setLoading(true);
@@ -50,18 +50,23 @@ export default function Result(){
     navigate('/lesson')
   }
 
+  if (loading) {
+    return (
+      <div className='ContainResult'>
+        <div className='loading-state'>Đang tải chi tiết...</div>
+      </div>
+    );
+  }
+
     return(
         <div className='ContainResult'>
+          <div className='result-wrapper'>
             <div className='resultQuizz'>
                 <h2>Chúc mừng bạn đã hoàn thành bài kiểm tra</h2>
-                <h3> Điểm: {Score}/10</h3>
+                <h3>Điểm: {Score}/10</h3>
             </div>
-            <div className='History'
-              
-            >
+            <div className='History'>
                 <h2>Xem lại đáp án</h2>
-              
-               
                   {chiTietBaiLam.length === 0 ? (
                     <p>Không có dữ liệu hiển thị hoặc đang tải...</p>) : (
                   chiTietBaiLam.map((item, index) => (
@@ -75,9 +80,9 @@ export default function Result(){
                   </div>
     ))
   )}
-             
             </div>
             <button className='btn-Home' onClick={ReturnHome}>Quay lại bài học</button>
+          </div>
         </div>
     )
 }

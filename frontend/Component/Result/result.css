@@ -1,47 +1,126 @@
-.ContainResult{
-     background-color:rgb(196, 249, 249)  ; 
-  background-size: cover;      /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
-  background-position: center; /* Giữ tâm bức ảnh luôn ở chính giữa màn hình */
-  background-repeat: no-repeat;/* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
-  background-attachment: fixed;/* Giữ ảnh nền cố định khi cuộn trang (nếu có) */
- width: 100vw;             /* Chiếm hết 100% chiều rộng màn hình */
-  min-height: 100vh;        /* Chiếm tối thiểu 100% chiều cao màn hình */
-  margin: 0;
-  padding: 0;
-}
-.resultQuizz{
-    width:35rem ;
-    height: fit-content;
-    padding-bottom: 5px;
-    margin: 1rem 3rem ;
-    background-color:rgb(253, 253, 253) ;
-    border-radius: 20px;
-}
-.resultQuizz h2{
-    padding:15px;
-    font-size: 25px;
-    color: rgb(85, 85, 235);
+.ContainResult {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, #e8f5ff 0%, #eef9ff 100%);
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem 4rem;
+  box-sizing: border-box;
 }
 
-.History{
-    width:35rem ;
-    height: fit-content;
-    min-height: 5rem;
-    padding-bottom: 5px;
-    margin: 1rem 3rem ;
-    background-color:rgb(253, 253, 253) ;
-    border-radius: 20px;
+.result-wrapper {
+  width: min(980px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
 }
-.History h2{
-    padding:5px;
+
+.resultQuizz,
+.History {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.75rem 1.8rem;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
-.content{
-    width: 30rem;
-    height: fit-content;
-    background-color: #f8e4e4;
-    margin: 20px 20px;
-    border-radius: 15px;
-    border: 3px solid #efcccc4d;
-    padding: 15px;
-    color: rgb(0, 0, 0);
+
+.resultQuizz h2,
+.History h2 {
+  margin: 0 0 1rem;
+  color: #0f172a;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.resultQuizz h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.History {
+  padding-top: 1.5rem;
+}
+
+.History p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.content {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f8fafc;
+  margin: 0 0 1rem 0;
+  border-radius: 18px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  padding: 1.25rem 1.4rem;
+  color: #0f172a;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.content p {
+  margin: 0.6rem 0;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.content strong {
+  color: #0f172a;
+}
+
+.content span {
+  margin-left: 0.4rem;
+  font-weight: 700;
+}
+
+.btn-Home {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.9rem 1.6rem;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-Home:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.loading-state,
+.error-state {
+  width: min(680px, 100%);
+  margin: 0 auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  text-align: center;
+  color: #0f172a;
+}
+
+@media (max-width: 768px) {
+  .result-wrapper {
+    gap: 1rem;
+  }
+
+  .resultQuizz,
+  .History {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .Content {
+    padding: 1.25rem;
+  }
 }

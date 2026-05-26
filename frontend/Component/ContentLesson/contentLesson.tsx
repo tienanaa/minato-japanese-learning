@@ -51,27 +51,33 @@ const tenBH = state?.tenBH|| "Bai 1";
           // Giả sử Backend trả về mảng nằm trong trường: detailData.danh_sach_tu_vung
           const rawList = detailData.danh_sach_chi_tiet || [];
           if(loaiBH=="TuVung")
-         { const formattedList: VocabProp[] = rawList.map((item: any, index: number) => ({
-            id: item.tuvungid|| item.baihocid || String(index + 1), // Dự phòng nếu không có id riêng
-            vocab: item.tuvung || "",
-            cachdoc: item.cachdoc || "",
-            mean: item.vietnamese || item.nghia || ""
-          }));
+         { const formattedList: VocabProp[] = rawList.map((item: unknown, index: number) => {
+            const anyItem = item as Record<string, unknown>;
+            return {
+              id: String(anyItem.tuvungid ?? anyItem.baihocid ?? index + 1),
+              vocab: String(anyItem.tuvung ?? ""),
+              cachdoc: String(anyItem.cachdoc ?? ""),
+              mean: String(anyItem.vietnamese ?? anyItem.nghia ?? ""),
+            };
+          });
           console.log(formattedList)
           setDanhSachTuVung(formattedList);}
           if(loaiBH=='Kanji')
           {
-             const formattedList: KanjiProp[] = rawList.map((item: any, index: number) => ({
-            id: item.kanjiid|| item.baihocid || String(index + 1), // Dự phòng nếu không có id riêng
-            kanji: item.kytu || "",
-            sonet: item.sonet || "",
-            mean: item.vietnamese || item.nghia || ""
-          }));
+             const formattedList: KanjiProp[] = rawList.map((item: unknown, index: number) => {
+            const anyItem = item as Record<string, unknown>;
+            return {
+              id: String(anyItem.kanjiid ?? anyItem.baihocid ?? index + 1),
+              kanji: String(anyItem.kytu ?? ""),
+              sonet: String(anyItem.sonet ?? ""),
+              mean: String(anyItem.vietnamese ?? anyItem.nghia ?? ""),
+            };
+          });
           console.log(formattedList)
           setDanhSachKanji(formattedList);
           }
         } 
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Lỗi lấy chi tiết bài học:", err);
         
       }
@@ -79,7 +85,7 @@ const tenBH = state?.tenBH|| "Bai 1";
     };
 
     fetchDetailData();
-  }, [userId, lessonId]);
+  }, [userId, lessonId, loaiBH]);
 
     const GotoQuizz=()=>{
 

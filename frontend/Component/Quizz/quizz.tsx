@@ -49,9 +49,8 @@ export default function Quizz(){
         } else {
           setError(json.message || "Không thể tải câu hỏi trắc nghiệm.");
         }
-        console.log(json.data)
-        console.log(danhSachCauHoi)
-      } catch (err: any) {
+        console.log(json.data);
+      } catch (err: unknown) {
         console.error("Lỗi lấy dữ liệu bài test:", err);
         setError("Đã xảy ra lỗi kết nối đến hệ thống.");
       } finally {
@@ -74,7 +73,7 @@ export default function Quizz(){
     let updatedScore = score;
     if (ladung) {
       updatedScore = score + 5;
-      setScore(updatedScore);
+      setScore((prevScore) => prevScore + 5);
     }
 
     // 2. Chuyển câu hỏi hoặc nộp bài
@@ -152,16 +151,21 @@ export default function Quizz(){
   }
   
   const showQuestion=()=>{
+    const question = danhSachCauHoi[countAnswer];
     return(
       <div>
-        <div className='Quesstion'>
-          <h2> {danhSachCauHoi[countAnswer].noidungcauhoi} </h2>
+        <div className="quiz-header">
+          <h1 className="quiz-title">Câu hỏi {countAnswer + 1}</h1>
+          <div className="quiz-meta">{countAnswer + 1} / {danhSachCauHoi.length}</div>
         </div>
-        {danhSachCauHoi[countAnswer].danh_sach_dap_an.map((answer)=>(
+        <div className='Quesstion'>
+          <h2>{question.noidungcauhoi}</h2>
+        </div>
+        {question.danh_sach_dap_an.map((answer)=>(
           <button
             key={answer.luachonid}
             className='btn-answer'
-            onClick={() => handleSelectAnswer(danhSachCauHoi[countAnswer].cauhoiid, answer.luachonid, answer.dapandung)}>
+            onClick={() => handleSelectAnswer(question.cauhoiid, answer.luachonid, answer.dapandung)}>
             {answer.noidungluachon}
           </button>
         ))}

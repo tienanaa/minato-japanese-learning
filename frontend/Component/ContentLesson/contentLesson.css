@@ -1,43 +1,54 @@
 .ContainContent{
-   height: auto;          /* <--- THÊM MỚI */
-    height: auto;          /* Để chiều cao tự động co giãn theo nội dung */
+    height: auto;
     min-height: 100vh;
     overflow-y: visible;   
     padding-bottom: 80px;
-     background-color:rgb(207, 244, 244)  ; 
-     width: 100vw;             /* Chiếm hết 100% chiều rộng màn hình */      /* Chiếm tối thiểu 100% chiều cao màn hình */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d4e6f1 100%);
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 h2{
-    color: black;
+    color: #0074d4;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 .Content{
-    margin: 50px auto 0 auto;
-    width: fit-content;
+    margin: 40px auto 0 auto;
+    width: calc(100% - 60px);
+    max-width: 1000px;
     min-width: 1rem;
-    /* LOẠI BỎ hoàn toàn dòng: height: fit-content */
-    border-radius: 15px;
-
-    background-color: #0074d4;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 116, 212, 0.18);
     margin-left: 25px;
     margin-top: 50px;
-    padding: 15px 10px;
-    height: auto;
-    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 h1{
-    font-size: 35px;
-    font-family:'Times New Roman', Times, serif ;
-    color: black;
+    font-size: 36px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #0f2047;
+    margin-left: 30px;
+    margin-top: 28px;
 }
 .btn-test{
-    margin-top: 12px;
-    padding: 10px 10px;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 15px;
-    font-size: 2rem;
-    background-color: rgb(66, 126, 246);
+    margin-top: 25px;
+    padding: 12px 22px;
+    border-radius: 9999px;
+    font-size: 1.15rem;
+    background-color: #0074d4;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-test:hover {
+    transform: translateY(-2px);
+    background-color: #005bb5;
 }
