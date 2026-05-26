@@ -15,8 +15,8 @@ export default function Home() {
       <div className="Contain-Home">
         <nav className="home-navbar">
           <div className="nav-logo-section">
-            {/* Đổi tên file logo cho đúng với file trong folder public của bạn */}
             <img src="/logo_rv_bg.png" alt="Logo Minato" className="nav-logo" />
+            <span className="nav-minato">Minato</span>
           </div>
           <div className="nav-links-section">
             <button className="btn">Trang chủ</button>
