@@ -74,7 +74,7 @@ def login(request: LoginRequest, db_conn = Depends(get_db_connection)):
 @app.get("/api/dashboard/{user_id}")
 def get_dashboard(user_id: str, db_conn = Depends(get_db_connection)):
     try:
-        data = repositories.get_dashboard_info(db_conn, user_id)
+        data = repositories.get_user_dashboard(db_conn, user_id)
         
         if not repositories.check_user_exists(db_conn, user_id):
             raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
@@ -87,6 +87,31 @@ def get_dashboard(user_id: str, db_conn = Depends(get_db_connection)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lỗi truy xuất dữ liệu: {str(e)}")
 
+@app.get("/api/admin/dashboard/{user_id}")
+def get_admin_dashboard_data(user_id: str, db_conn = Depends(get_db_connection)):
+    try:
+        if not repositories.check_user_exists(db_conn, user_id):
+            raise HTTPException(status_code=404, detail=f"User {user_id} không tồn tại")
+        
+        if not repositories.check_is_admin(db_conn, user_id):
+            raise HTTPException(status_code=403, detail="Cảnh báo: Bạn không có quyền truy cập vào trang Quản trị!")
+        data = repositories.get_admin_dashboard(db_conn)
+        
+        if not data:
+             return {
+                "status": "success",
+                "message": "Chưa có dữ liệu thống kê",
+                "data": {}
+            }
+        
+        return {
+            "status": "success",
+            "message": "Lấy dữ liệu Admin Dashboard thành công",
+            "data": data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lỗi truy xuất hệ thống: {str(e)}")
+    
 @app.get("/api/users/{user_id}/baihoc")
 def get_baihoc(user_id: str, trinh_do: Optional[str] = None, db_conn = Depends(get_db_connection)):
     try:

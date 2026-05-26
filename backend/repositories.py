@@ -5,6 +5,16 @@ def check_user_exists(conn, user_id):
     with conn.cursor() as cursor:
         cursor.execute("SELECT 1 FROM NGUOIDUNG WHERE UserID = %s", (user_id,))
         return cursor.fetchone() is not None
+
+def check_is_admin(conn, user_id):
+    with conn.cursor() as cursor:
+        query = "SELECT VaiTro FROM NGUOIDUNG WHERE UserID = %s"
+        cursor.execute(query, (user_id,))
+        row = cursor.fetchone()
+        
+        if row and row[0] == 0:
+            return True
+        return False
     
 def login_user(conn, username, password):
     with conn.cursor() as cursor:
@@ -22,7 +32,7 @@ def login_user(conn, username, password):
         
         return None 
 
-def get_dashboard_info(conn,user_id):
+def get_user_dashboard(conn,user_id):
     with conn.cursor() as cursor:
         query_view = """
             SELECT CURRENT_DATE AS Ngay, U.TrinhDo, U.MucTieuK, U.MucTieuTV, T.SoLuongKanjiDaHoc, T.SoLuongTuVungDaHoc, T.HoanThanhMucTieu 
@@ -56,6 +66,18 @@ def get_dashboard_info(conn,user_id):
                 "tong_tuvung_da_thuoc": total_tuvung
             }
         }
+
+def get_admin_dashboard(conn):
+    with conn.cursor() as cursor:
+        query = "SELECT * FROM QuanTri;"
+        cursor.execute(query)
+        row = cursor.fetchone()
+        
+        if row:
+            columns = [column[0] for column in cursor.description]
+            return dict(zip(columns, row))
+        
+        return None
 
 def get_danh_sach_bai_hoc(conn, user_id,trinh_do=None):
     with conn.cursor() as cursor:
@@ -249,3 +271,4 @@ def get_chi_tiet_lich_su(conn, lambai_id):
         columns = [column[0] for column in cursor.description]
         results = cursor.fetchall()
         return [dict(zip(columns, row)) for row in results]
+

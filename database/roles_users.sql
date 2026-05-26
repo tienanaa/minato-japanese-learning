@@ -29,20 +29,19 @@ ALTER ROLE admin_01 WITH SUPERUSER;
 
 -- phan quyen cho admin
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO role_admin;
--- Cho phép admin sử dụng các chuỗi tự động tăng (SERIAL cho thực thể Nhật ký / Chi tiết làm bài)
+-- Cho phép admin sử dụng các chuỗi tự động tăng 
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO role_admin;
 
 -- phan quyen cho user
 GRANT SELECT ON TABLE baihoc, kanji, cachdockanji, tuvung, tuvungkanji TO role_hoc_vien;
 
--- 2. Các bảng USER được phép XEM (SELECT) dữ liệu cá nhân 
--- (Lưu ý: Logic lọc đúng dòng của user đó sẽ được xử lý ở code Backend thông qua WHERE userid = current_user)
+-- 2. Các bảng USER được phép XEM dữ liệu cá nhân 
 GRANT SELECT ON TABLE trangthaikanji, trangthaituvung, nhatkylambai, chitietlambai TO role_hoc_vien;
 
--- 3. Phân quyền trên bảng NGUOIDUNG (Xem toàn bộ, nhưng SỬA giới hạn cột)
+-- 3. Phân quyền trên bảng NGUOIDUNG
 -- User được xem thông tin cá nhân
 GRANT SELECT ON TABLE nguoidung TO role_hoc_vien;
--- User CHỈ ĐƯỢC CẬP NHẬT (UPDATE) trên 4 cột: MatKhau, Username, Email, MucTieuK, MucTieuTV
+-- User CHỈ ĐƯỢC CẬP NHẬT trên 4 cột: MatKhau, Username, Email, MucTieuK, MucTieuTV
 GRANT UPDATE (matkhau, username, email, muctieuk, muctieutv) ON TABLE nguoidung TO role_hoc_vien;
 
 GRANT SELECT, DELETE ON TABLE tiendohangngay TO role_hoc_vien;

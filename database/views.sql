@@ -88,10 +88,32 @@ JOIN CACLUACHON L ON C.LuaChonID = L.LuaChonID;
 -- View Thống kê dành cho Admin
 CREATE VIEW QuanTri AS
 SELECT 
-    (SELECT COUNT(*) FROM NGUOIDUNG WHERE NgayTaoTK = CURRENT_DATE) AS NguoiDungMoiHomNay,
+    ND.TongSoAdmin,
+	ND.TongSoHocVien,
+	ND.HocVienMoiHomNay,
+	ND.NguoiHoc_N5,
+	ND.NguoiHoc_N4,
+	ND.NguoiHoc_N3,
+	ND.NguoiHoc_N2,
+	ND.NguoiHoc_N1,
+
     (SELECT COUNT(*) FROM TUVUNG) AS TongSoTuVungHienCo,
+	(SELECT COUNT(*) FROM KANJI) AS TongSoKanjiHienCo,
     (SELECT B.TenBaiTap 
      FROM NHATKYLAMBAI N 
      JOIN BAITAPONTAP B ON N.BTOntapID = B.BTOntapID 
      GROUP BY B.TenBaiTap 
-     ORDER BY COUNT(*) DESC LIMIT 1) AS BaiTapDuocLamNhieuNhat;
+     ORDER BY COUNT(*) DESC LIMIT 1) AS BaiTapDuocLamNhieuNhat
+FROM(
+    SELECT
+		COUNT(*) FILTER (WHERE VaiTro = 0) AS TongSoAdmin,
+		COUNT(*) FILTER (WHERE VaiTro = 1) AS TongSoHocVien,
+		COUNT(*) FILTER (WHERE NgayTaoTK = CURRENT_DATE AND VaiTro = 1) AS HocVienMoiHomNay,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N5' AND VaiTro = 1) AS NguoiHoc_N5,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N4' AND VaiTro = 1) AS NguoiHoc_N4,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N3' AND VaiTro = 1) AS NguoiHoc_N3,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N2' AND VaiTro = 1) AS NguoiHoc_N2,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N1' AND VaiTro = 1) AS NguoiHoc_N1
+	FROM NGUOIDUNG
+) AS ND;
+

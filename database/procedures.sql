@@ -11,42 +11,33 @@ DECLARE
     v_DaHocK INT;
     v_DaHocTV INT;
 
-    -- [CURSOR] - Tạo một bộ lọc chứa danh sách tất cả người dùng và mục tiêu của họ
     user_cursor CURSOR FOR 
         SELECT UserID, MucTieuK, MucTieuTV 
         FROM NGUOIDUNG;
 BEGIN
-    -- [MỞ CURSOR] - Bắt đầu đọc danh sách người dùng
     OPEN user_cursor;
 
     LOOP
-        -- [FETCH] - Lấy thông tin của người dùng tiếp theo ra các biến tạm
         FETCH user_cursor INTO v_UserID, v_MucTieuK, v_MucTieuTV;
         
-        -- [THOÁT VÒNG LẶP] - Nếu không còn người dùng nào nữa thì dừng lại
         EXIT WHEN NOT FOUND;
 
-        -- [XỬ LÝ DỮ LIỆU] - Lấy số lượng thực tế đã học của người này trong ngày hôm nay
         SELECT SoLuongKanjiDaHoc, SoLuongTuVungDaHoc 
         INTO v_DaHocK, v_DaHocTV
         FROM TIENDOHANGNGAY 
         WHERE UserID = v_UserID AND NgayHoc = CURRENT_DATE;
 
-        -- [LOGIC KIỂM TRA] - So sánh thực tế với mục tiêu
         IF (v_DaHocK >= v_MucTieuK AND v_DaHocTV >= v_MucTieuTV) THEN
-            -- Nếu đạt mục tiêu: Cập nhật Trạng thái thành Hoàn thành (1)
             UPDATE TIENDOHANGNGAY 
             SET TrangThai = TRUE 
             WHERE UserID = v_UserID AND NgayHoc = CURRENT_DATE;
         ELSE
-            -- Nếu chưa đạt: Cập nhật Trạng thái thành Chưa hoàn thành (0)
             UPDATE TIENDOHANGNGAY 
             SET TrangThai = FALSE 
             WHERE UserID = v_UserID AND NgayHoc = CURRENT_DATE;
         END IF;
     END LOOP;
 
-    -- [ĐÓNG CURSOR] - Giải phóng bộ nhớ sau khi xử lý xong
     CLOSE user_cursor;
 END;
 $$;
