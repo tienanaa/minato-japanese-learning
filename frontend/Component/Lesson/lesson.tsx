@@ -5,6 +5,7 @@ import { BsFolderFill } from "react-icons/bs";
 import "tailwindcss";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Bell, Settings } from "lucide-react";
 type LessonPro = {
   baihocid: string;
   tenbai: string;
@@ -55,26 +56,56 @@ export default function Lesson() {
   const returnHome = () => {
     navigate("/home");
   };
-  const GotoContent = (idCuaBaiHoc: string, loaiBh: string) => {
+  const GotoContent = (idCuaBaiHoc: string, loaiBh: string , tenBH:string) => {
     navigate("/ContentLesson", {
-      state: { lessonId: idCuaBaiHoc, loaiBH: loaiBh },
+      state: { lessonId: idCuaBaiHoc, loaiBH: loaiBh, tenBH: tenBH },
     });
   };
 
   if (loading)
     return <div className="text-center p-5">Đang tải danh sách bài học...</div>;
   if (error) return <div className="text-center text-danger p-5">{error}</div>;
+   const UserName = localStorage.getItem("userName") || "Học viên";
+  const trinhdo = localStorage.getItem("trinhdo") || "N3";
 
   return (
     <div className="ContainLesson">
-      <nav className="navbar">
-        <button className="btn" onClick={returnHome}>
-          Trang chủ
-        </button>
-        <button className="btn">Bài học</button>
-        <button className="btn">Luyện tập</button>
-        <button className="btn">Bảng xếp hạng</button>
-      </nav>
+      <nav className="home-navbar">
+          <div className="nav-logo-section">
+            <img src="/logo_rv_bg.png" alt="Logo Minato" className="nav-logo" />
+            <span className="nav-minato">Minato</span>
+          </div>
+          <div className="nav-links-section">
+            <button className="btn" onClick={returnHome}>Trang chủ</button>
+            <button className="btn" >
+              Bài học
+            </button>
+            <button className="btn">Luyện tập</button>
+            <button className="btn">Bảng xếp hạng</button>
+          </div>
+          <div className="nav-profile-section">
+            {/* Các Icon */}
+            <div className="nav-icons">
+              <Bell size={22} className="icon-action" />
+              <Settings size={22} className="icon-action" />
+            </div>
+
+            {/* Vạch kẻ dọc */}
+            <div className="nav-divider"></div>
+
+            {/* Thông tin chữ */}
+            <div className="nav-user-info">
+              <span className="user-name">{UserName}</span>
+              <span className="user-level">{trinhdo}</span>
+            </div>
+
+            {/* Ảnh Avatar */}
+            <div className="nav-avatar-box">
+              {/* Truyền link ảnh Avatar của bạn vào đây */}
+              <img src="/user.jpg" alt="Avatar" className="user-avatar" />
+            </div>
+          </div>
+        </nav>
       <div className="ContainTitleLesson">
         <BsFolderFill
           style={{
@@ -104,7 +135,7 @@ export default function Lesson() {
           <FrameLesson
             key={baihoc.baihocid}
             name={baihoc.tenbai}
-            GotoContent={() => GotoContent(baihoc.baihocid, baihoc.loai)}
+            GotoContent={() => GotoContent(baihoc.baihocid, baihoc.loai, baihoc.tenbai)}
           />
         ))}
       </div>

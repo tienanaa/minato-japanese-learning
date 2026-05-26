@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Vocab from '../Vocab/Vocab'
 import Kanji from '../Kanji/Kanji'
+import { Bell, Settings } from "lucide-react";
+import { ArrowRight } from 'lucide-react';
 type VocabProp={
     id: string,
     vocab: string,
@@ -17,13 +19,17 @@ type KanjiProp={
 }
 
 export default function ContentLesson(){  
+  
     const navigate= useNavigate();
    const location = useLocation();
-
+  
+  const UserName = localStorage.getItem("userName") || "Học viên";
+  const trinhdo = localStorage.getItem("trinhdo") || "N3";
 // Ép kiểu an toàn cho state nhận về từ router
-const state = location.state as { lessonId?: string; loaiBH?: string } | null;
+const state = location.state as { lessonId?: string; loaiBH?: string; tenBH?:string } | null;
 const lessonId = state?.lessonId || "BH001";
 const loaiBH = state?.loaiBH || "TuVung";
+const tenBH = state?.tenBH|| "Bai 1";
   const userId = localStorage.getItem("user_id") || "U002";
 
   // 2. Tạo state để lưu trữ danh sách từ vựng/chữ hán lấy từ Backend về
@@ -84,16 +90,41 @@ const loaiBH = state?.loaiBH || "TuVung";
 
     return(
         <div className='ContainContent'>
-            <nav className="navbar">
-                <button className="btn" >Trang chủ</button>
-                <button className="btn" >Bài học</button>  
-                <button className="btn" >Luyện tập</button>
-                <button className="btn" >Bảng xếp hạng</button> 
-            </nav>
-            <button onClick={GotoQuizz} >Mini Test</button>
+         <nav className="home-navbar">
+          <div className="nav-logo-section">
+            <img src="/logo_rv_bg.png" alt="Logo Minato" className="nav-logo" />
+            <span className="nav-minato">Minato</span>
+          </div>
+         
+          <div className="nav-profile-section">
+            {/* Các Icon */}
+            <div className="nav-icons">
+              <Bell size={22} className="icon-action" />
+              <Settings size={22} className="icon-action" />
+            </div>
+
+            {/* Vạch kẻ dọc */}
+            <div className="nav-divider"></div>
+
+            {/* Thông tin chữ */}
+            <div className="nav-user-info">
+              <span className="user-name">{UserName}</span>
+              <span className="user-level">{trinhdo}</span>
+            </div>
+
+            {/* Ảnh Avatar */}
+            <div className="nav-avatar-box">
+              {/* Truyền link ảnh Avatar của bạn vào đây */}
+              <img src="/user.jpg" alt="Avatar" className="user-avatar" />
+            </div>
+          </div>
+        </nav>
+           
             <div>
             </div>
+            <h1>{tenBH}</h1>
             <div className='Content'>
+              
                 <h2>{loaiBH === "Kanji" ? "Danh sách chữ Hán" : "Danh sách từ vựng"}</h2>
     
     {/* Nếu loaiBH là TuVung thì mới hiện bảng Vocab */}
@@ -102,6 +133,7 @@ const loaiBH = state?.loaiBH || "TuVung";
     {/* Nếu loaiBH là Kanji thì mới hiện bảng Kanji */}
     {loaiBH === "Kanji" && <Kanji listData={danhSachKanji} />}
             </div>
+             <button className='btn-test' onClick={GotoQuizz} >Mini Test <ArrowRight /></button>
         </div>
     )
 }

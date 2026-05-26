@@ -27,11 +27,11 @@
 
 /* 5. Định nghĩa màu sắc nếu bạn chưa cấu hình trong Tailwind */
 .text-on-surface-variant {
-    color: #0f172a; /* Màu chữ phụ (Slate 500) */
+     color: #f8fafc; /* Màu chữ phụ (Slate 500) */
 }
 
 .text-on-surface {
-    color: #0f172a; /* Màu chữ chính gần như đen (Slate 900) */
+     color: #f8fafc; /* Màu chữ chính gần như đen (Slate 900) */
 }
 
 .border-outline-variant {
@@ -58,13 +58,14 @@
 }
 
 .Contain_table {
-    background-color: rgb(131, 191, 244); /* Màu nền xanh dịu mắt */
+    background-color: #0074d4; /* Màu nền xanh dịu mắt */
     border-radius: 16px;       /* Bo góc cho toàn bộ khối */
     padding: 24px;             /* Khoảng cách đệm an toàn xung quanh bảng */
     width: 100%;               /* Co giãn tự động trên màn hình nhỏ */
     max-width: 720px;          /* Giới hạn độ rộng tối đa của bảng trên máy tính */
     margin: 30px auto;         /* Đưa cả khối ra chính giữa màn hình */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Đổ bóng mờ hiện đại */
+   
 }
 
 /* Tiêu đề "Danh sách từ vựng" */
@@ -74,7 +75,7 @@
     margin-bottom: 20px;
     font-size: 20px;
     font-weight: 700;
-    color: #0f2047;
+     color: #f8fafc;
 }
 
 /* Thiết lập cấu trúc cốt lõi cho bảng */
@@ -94,7 +95,7 @@
 /* Thiết kế cho hàng tiêu đề (th) */
 .table th {
     padding-bottom: 14px;
-    color: rgba(15, 23, 42, 0.6); /* Màu chữ phụ mờ tinh tế */
+    color: #f8fafc; /* Màu chữ phụ mờ tinh tế */
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.05em;    /* Giãn chữ tiêu đề nhẹ */
@@ -105,7 +106,7 @@
 .BodyTable td {
     padding-top: 16px;
     padding-bottom: 16px;
-    color: #120606 !important;            /* Màu chữ chính đen đậm */
+     color: #f8fafc!important;            /* Màu chữ chính đen đậm */
     border-bottom: 1px solid rgba(0, 0, 0, 0.25); /* Đường ngăn cách mỏng giữa các hàng */
 }
 

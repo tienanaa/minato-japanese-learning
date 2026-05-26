@@ -20,10 +20,24 @@ h2{
     /* LOẠI BỎ hoàn toàn dòng: height: fit-content */
     border-radius: 15px;
 
-    background-color: rgb(131, 191, 244);
+    background-color: #0074d4;
     margin-left: 25px;
     margin-top: 50px;
     padding: 15px 10px;
     height: auto;
     border-radius: 15px;
+}
+h1{
+    font-size: 35px;
+    font-family:'Times New Roman', Times, serif ;
+    color: black;
+}
+.btn-test{
+    margin-top: 12px;
+    padding: 10px 10px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 15px;
+    font-size: 2rem;
+    background-color: rgb(66, 126, 246);
 }
