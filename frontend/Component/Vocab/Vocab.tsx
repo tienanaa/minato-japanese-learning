@@ -2,14 +2,17 @@ import './Vocab.css'
 type VocabProp={
     id: string,
     vocab: string,
-    cachdoc:string
+    cachdoc:string,
     mean: string,
+    trangthai: number,
 }
 // Định nghĩa kiểu dữ liệu cho props nhận vào
 type VocabComponentProps = {
   listData: VocabProp[];
+  onToggleStatus: (itemId: string, newStatus: number) => void;
+  savingItemId: string | null;
 }
-export default function Vocab({listData}:VocabComponentProps){
+export default function Vocab({listData, onToggleStatus, savingItemId}:VocabComponentProps){
     return(
         <>
         <div className='Contain_table'>
@@ -20,6 +23,7 @@ export default function Vocab({listData}:VocabComponentProps){
             <th className="col-kanji">KANJI</th>
             <th className="col-hiragana">HIRAGANA</th>
             <th className="col-meaning">NGHĨA TIẾNG VIỆT</th>
+            <th className="col-status">TRẠNG THÁI</th>
           </tr>
         </thead>
         <tbody className="BodyTable">
@@ -32,13 +36,28 @@ export default function Vocab({listData}:VocabComponentProps){
             </tr>
           ) : (
             /* MAP CÁC TỪ VỰNG TỪ BACKEND VÀO ĐÂY */
-            listData.map((item) => (
-              <tr key={item.id} className="vocab-row">
-                <td className="cell-kanji">{item.vocab }</td>
-                <td className="cell-hiragana">{item.cachdoc}</td>
-                <td className="cell-meaning">{item.mean}</td>
-              </tr>
-            ))
+            listData.map((item) => {
+              const nextStatus = item.trangthai === 1 ? 0 : 1;
+              const buttonText = item.trangthai === 1 ? 'Đánh dấu Chưa thuộc' : 'Đánh dấu Đã thuộc';
+              return (
+                <tr key={item.id} className="vocab-row">
+                  <td className="cell-kanji">{item.vocab }</td>
+                  <td className="cell-hiragana">{item.cachdoc}</td>
+                  <td className="cell-meaning">{item.mean}</td>
+                  <td className="cell-status">
+                    <div className="status-label">{item.trangthai === 1 ? 'Đã thuộc' : 'Chưa thuộc'}</div>
+                    <button
+                      type="button"
+                      className="status-button"
+                      onClick={() => onToggleStatus(item.id, nextStatus)}
+                      disabled={savingItemId === item.id}
+                    >
+                      {savingItemId === item.id ? 'Đang lưu...' : buttonText}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>

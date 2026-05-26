@@ -45,9 +45,10 @@
 }
 
 /* Tỷ lệ độ rộng cột */
-.col-kanji { width: 30%; }
-.col-hiragana { width: 35%; }
-.col-meaning { width: 35%; }
+.col-kanji { width: 25%; }
+.col-hiragana { width: 30%; }
+.col-meaning { width: 25%; }
+.col-status { width: 20%; }
 
 /* Định dạng tiêu đề */
 .table th {
@@ -83,6 +84,40 @@
 
 .cell-meaning {
     font-size: 16px;
+}
+
+.cell-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.status-label {
+    color: #f8fafc;
+}
+
+.status-button {
+    align-self: flex-start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 250, 252, 0.6);
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.status-button:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.status-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 
 /* Hàng cuối cùng không có border */

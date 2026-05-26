@@ -86,9 +86,10 @@
 }
 
 /* TỶ LỆ ĐỘ RỘNG CÁC CỘT (Cộng lại bằng chuẩn 100%) */
-.col-kanji { width: 25%;  }
-.col-hiragana { width: 25%; }
-.col-meaning { width: 50%; }
+.col-kanji { width: 22%;  }
+.col-hiragana { width: 22%; }
+.col-meaning { width: 36%; }
+.col-status { width: 20%; }
 
 
 /* Định dạng chung cho cả tiêu đề (th) và nội dung (td) để thẳng hàng tăm tắp */
@@ -125,6 +126,41 @@
 
 .cell-meaning {
     font-size: 22px;
+}
+
+.cell-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.status-label {
+    color: #f8fafc;
+}
+
+.status-button {
+    align-self: flex-start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(248, 250, 252, 0.6);
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.status-button:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.status-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 
 /* Hiệu ứng hover highlight khi di chuột qua từng dòng từ vựng */

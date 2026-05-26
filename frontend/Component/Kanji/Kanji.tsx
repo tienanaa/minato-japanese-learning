@@ -3,16 +3,19 @@ import './Kanji.css'
 type KanjiProp={
     id: string,
     kanji: string,
-    sonet:string
+    sonet:string,
     mean: string,
+    trangthai: number,
 }
 
 // Định nghĩa kiểu dữ liệu cho props nhận vào
 type VocabComponentProps = {
   listData: KanjiProp[];
+  onToggleStatus: (itemId: string, newStatus: number) => void;
+  savingItemId: string | null;
 }
 
-export default function Kanji({listData}:VocabComponentProps){
+export default function Kanji({listData, onToggleStatus, savingItemId}:VocabComponentProps){
 
 
     return(
@@ -25,6 +28,7 @@ export default function Kanji({listData}:VocabComponentProps){
             <th className="col-kanji">KANJI</th>
             <th className="col-hiragana">Nghĩa </th>
             <th className="col-meaning">Số nét</th>
+            <th className="col-status">Trạng thái</th>
           </tr>
         </thead>
         <tbody className="BodyTable">
@@ -38,13 +42,28 @@ export default function Kanji({listData}:VocabComponentProps){
             
           ) : (
             /* MAP CÁC TỪ VỰNG TỪ BACKEND VÀO ĐÂY */
-            listData.map((item) => (
-              <tr key={item.id} className="vocab-row">
-                <td className="cell-kanji">{item.kanji }</td>
-                <td className="cell-hiragana">{item.mean}</td>
-                <td className="cell-meaning">{item.sonet}</td>
-              </tr>
-            ))
+            listData.map((item) => {
+              const nextStatus = item.trangthai === 1 ? 0 : 1;
+              const buttonText = item.trangthai === 1 ? 'Đánh dấu Chưa thuộc' : 'Đánh dấu Đã thuộc';
+              return (
+                <tr key={item.id} className="vocab-row">
+                  <td className="cell-kanji">{item.kanji }</td>
+                  <td className="cell-hiragana">{item.mean}</td>
+                  <td className="cell-meaning">{item.sonet}</td>
+                  <td className="cell-status">
+                    <div className="status-label">{item.trangthai === 1 ? 'Đã thuộc' : 'Chưa thuộc'}</div>
+                    <button
+                      type="button"
+                      className="status-button"
+                      onClick={() => onToggleStatus(item.id, nextStatus)}
+                      disabled={savingItemId === item.id}
+                    >
+                      {savingItemId === item.id ? 'Đang lưu...' : buttonText}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>

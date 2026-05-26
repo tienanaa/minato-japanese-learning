@@ -10,12 +10,14 @@ type VocabProp={
     vocab: string,
     cachdoc:string,
     mean: string,
+    trangthai: number,
 }
 type KanjiProp={
     id: string,
     kanji: string,
-    sonet:string
+    sonet:string,
     mean: string,
+    trangthai: number,
 }
 
 export default function ContentLesson(){  
@@ -35,7 +37,50 @@ const tenBH = state?.tenBH|| "Bai 1";
   // 2. Tạo state để lưu trữ danh sách từ vựng/chữ hán lấy từ Backend về
   const [danhSachTuVung, setDanhSachTuVung] = useState<VocabProp[]>([]);
   const [danhSachKanji, setDanhSachKanji] = useState<KanjiProp[]>([]);
+  const [savingItemId, setSavingItemId] = useState<string | null>(null);
   
+  const updateLearningStatus = async (itemId: string, newStatus: number) => {
+    const loai = loaiBH === 'Kanji' ? 'Kanji' : 'TuVung';
+    setSavingItemId(itemId);
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}/progress`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          item_id: itemId,
+          loai,
+          trang_thai: newStatus,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.detail || result.message || 'Không thể cập nhật trạng thái');
+      }
+
+      if (loai === 'TuVung') {
+        setDanhSachTuVung((current) =>
+          current.map((item) =>
+            item.id === itemId ? { ...item, trangthai: newStatus } : item
+          )
+        );
+      } else {
+        setDanhSachKanji((current) =>
+          current.map((item) =>
+            item.id === itemId ? { ...item, trangthai: newStatus } : item
+          )
+        );
+      }
+    } catch (error: unknown) {
+      console.error('Lỗi cập nhật trạng thái:', error);
+      alert('Không thể cập nhật trạng thái. Vui lòng thử lại.');
+    } finally {
+      setSavingItemId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchDetailData = async () => {
@@ -58,6 +103,7 @@ const tenBH = state?.tenBH|| "Bai 1";
               vocab: String(anyItem.tuvung ?? ""),
               cachdoc: String(anyItem.cachdoc ?? ""),
               mean: String(anyItem.vietnamese ?? anyItem.nghia ?? ""),
+              trangthai: Number(anyItem.trangthai ?? 0),
             };
           });
           console.log(formattedList)
@@ -71,6 +117,7 @@ const tenBH = state?.tenBH|| "Bai 1";
               kanji: String(anyItem.kytu ?? ""),
               sonet: String(anyItem.sonet ?? ""),
               mean: String(anyItem.vietnamese ?? anyItem.nghia ?? ""),
+              trangthai: Number(anyItem.trangthai ?? 0),
             };
           });
           console.log(formattedList)
@@ -142,10 +189,20 @@ const tenBH = state?.tenBH|| "Bai 1";
                 <h2>{loaiBH === "Kanji" ? "Danh sách chữ Hán" : "Danh sách từ vựng"}</h2>
     
     {/* Nếu loaiBH là TuVung thì mới hiện bảng Vocab */}
-    {loaiBH === "TuVung" && <Vocab listData={danhSachTuVung} />}
-    
-    {/* Nếu loaiBH là Kanji thì mới hiện bảng Kanji */}
-    {loaiBH === "Kanji" && <Kanji listData={danhSachKanji} />}
+    {loaiBH === "TuVung" && (
+      <Vocab
+        listData={danhSachTuVung}
+        onToggleStatus={(itemId: string, newStatus: number) => updateLearningStatus(itemId, newStatus)}
+        savingItemId={savingItemId}
+      />
+    )}
+    {loaiBH === "Kanji" && (
+      <Kanji
+        listData={danhSachKanji}
+        onToggleStatus={(itemId: string, newStatus: number) => updateLearningStatus(itemId, newStatus)}
+        savingItemId={savingItemId}
+      />
+    )}
             </div>
              <button className='btn-test' onClick={GotoQuizz} >Mini Test <ArrowRight /></button>
         </div>
