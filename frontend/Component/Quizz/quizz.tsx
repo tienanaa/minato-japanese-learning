@@ -113,8 +113,9 @@ export default function Quizz(){
       const json = await response.json();
 
       if (response.ok && json.status === "success") {
+        const lamBaiId = json.data?.ket_qua_hien_tai?.lambai_id || "";
         alert(`🎉 Nộp bài thành công! Điểm của bạn: ${finalScore}`);
-         navigate('/Result', {state:{ score: finalScore }})
+         navigate('/Result', {state:{ score: finalScore,lamBaiId: lamBaiId }})
         // Thích thì điều hướng về trang bài học
         // navigate("/lesson");
       } else {
