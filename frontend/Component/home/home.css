@@ -1,10 +1,10 @@
 .home-navbar {
   display: flex;
-  justify-content: space-between; /* Căn các nút bấm ra chính giữa thanh (hoặc dùng space-around để rải đều) */
-  align-items: center; /* Căn giữa các nút theo chiều dọc */
-  width: 100%; /* Ăn theo chiều rộng full của .Contain-Home */
-  height: 50px; /* Chiều cao của thanh điều hướng */
-  padding: 0 20px; /* Tạo khoảng cách thụt lề 2 bên cánh để các nút không dính sát viền */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 66px;
+  padding: 0 20px;
   box-sizing: border-box;
   background-color: #0074d4;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);

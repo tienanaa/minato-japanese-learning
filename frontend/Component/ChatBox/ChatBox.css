@@ -112,7 +112,7 @@
 }
 
 .modern-icon-box {
-  width: 35px;
+  width: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,4 +156,21 @@
   padding: 0 15px;
   font-size: 14px;
   box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.05); /* Hiệu ứng lõm nhẹ xịn xò */
+}
+
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background-color: #cce5ff;
+  border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background-color: #99cbff;
 }
