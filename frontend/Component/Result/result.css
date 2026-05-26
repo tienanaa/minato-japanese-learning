@@ -1,5 +1,5 @@
 .ContainResult{
-     background-color:azure  ; 
+     background-color:rgb(196, 249, 249)  ; 
   background-size: cover;      /* Ép ảnh kéo giãn bao phủ toàn bộ màn hình, không bị hở */
   background-position: center; /* Giữ tâm bức ảnh luôn ở chính giữa màn hình */
   background-repeat: no-repeat;/* Ngăn ảnh tự động lặp lại (nếu ảnh quá nhỏ) */
@@ -11,13 +11,37 @@
 }
 .resultQuizz{
     width:35rem ;
-    height: 25rem;
-    margin: 10rem 3rem ;
-    background-color:rgb(223, 240, 243) ;
+    height: fit-content;
+    padding-bottom: 5px;
+    margin: 1rem 3rem ;
+    background-color:rgb(253, 253, 253) ;
     border-radius: 20px;
 }
 .resultQuizz h2{
     padding:15px;
     font-size: 25px;
     color: rgb(85, 85, 235);
+}
+
+.History{
+    width:35rem ;
+    height: fit-content;
+    min-height: 5rem;
+    padding-bottom: 5px;
+    margin: 1rem 3rem ;
+    background-color:rgb(253, 253, 253) ;
+    border-radius: 20px;
+}
+.History h2{
+    padding:5px;
+}
+.content{
+    width: 30rem;
+    height: fit-content;
+    background-color: #f8e4e4;
+    margin: 20px 20px;
+    border-radius: 15px;
+    border: 3px solid #efcccc4d;
+    padding: 15px;
+    color: rgb(0, 0, 0);
 }

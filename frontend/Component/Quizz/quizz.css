@@ -11,21 +11,21 @@
   box-sizing: border-box;
 }
 .Quesstion{
-    background-color: rgb(249, 141, 10);
+    background-color: rgb(246, 229, 208);
     width: 35rem;
     height: 3rem;
 }
 .ContainOfQuizz{
-     background-color: bisque;
+     background-color: rgb(255, 255, 255);
     margin: 5rem 5rem;
     width: 35rem;
     height: fit-content;
 }
 .btn-answer{
-    margin-top: 15px;
+    margin: 5px;
     width: 33rem;
     height: 3rem;
-    border-radius: 5px;
+    border-radius: 15px;
     background-color: antiquewhite;
     color:black;
     font-size: 25px;

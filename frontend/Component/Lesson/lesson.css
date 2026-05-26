@@ -24,38 +24,7 @@
     background-color: #D8EBFA;
     border-radius: 10px;
 }
-.navbar{
-   display: flex;
-  justify-content: center; /* Căn các nút bấm ra chính giữa thanh (hoặc dùng space-around để rải đều) */
-  align-items: center;     /* Căn giữa các nút theo chiều dọc */
-  
-  width: 100%;             /* Ăn theo chiều rộng full của .Contain-Home */
-  height: 50px;            /* Chiều cao của thanh điều hướng */
-  padding: 0 20px;         /* Tạo khoảng cách thụt lề 2 bên cánh để các nút không dính sát viền */
-  box-sizing: border-box;
-  
-  border-bottom: 1px solid #e5e4e7; /* Đường kẻ mờ dưới chân navbar (tùy chọn) */
-  background-color: #D8EBFA;
-}
-.navbar .btn {
-  flex: 1;                 /* 🎯 DÒNG QUYẾT ĐỊNH: Ép các nút giãn đều lấp đầy thanh ngang */
-  padding: 15px 0;         /* Chỉ cần padding trên/dưới, chiều ngang tự giãn */
-  text-align: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s;
-  color: black;
-  
-  /* Nếu muốn giữa các nút có đường vạch ngăn cách nhỏ */
-  border-right: 1px solid #e5e4e7; 
-}
 
-/* Xóa đường vạch ngăn cách ở nút cuối cùng */
-.navbar .btn:last-child {
-  border-right: none;
-}
 .ContainListLesson{
    display: grid;
     /* Tự động lấp đầy và tự động xuống hàng dựa theo kích thước màn hình */
