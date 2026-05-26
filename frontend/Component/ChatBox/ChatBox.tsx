@@ -1,30 +1,14 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { FunctionComponent } from "react";
+import {
+  X,
+  BookOpen,
+  MessageCircle,
+  Paperclip,
+  Image as ImageIcon,
+  Send,
+} from "lucide-react";
 import "./ChatBox.css";
-
-const X = (props: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-);
-
-const BookOpen = (props: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-);
-
-const MessageCircle = (props: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-);
-
-const Paperclip = (props: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 2.2"></path></svg>
-);
-
-const ImageIcon = (props: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-);
-
-const Send = (props: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-);
 
 interface Message {
   sender: "user" | "bot";
@@ -40,6 +24,14 @@ const ChatBox: FunctionComponent<ChatBoxProps> = ({ userName, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, isOpen]);
 
   // --- LOGIC ĐÃ ĐƯỢC LÔI RA NGOÀI ĐỂ KHÔNG BỊ LỖI ĐỎ ---
   const triggerSend = async (text: string) => {
@@ -73,13 +65,11 @@ const ChatBox: FunctionComponent<ChatBoxProps> = ({ userName, userId }) => {
     }
   };
 
-  // Khi người dùng bấm nút Gửi (hoặc Enter) ở ô input
   const handleInputSend = () => {
     triggerSend(inputText);
-    setInputText(""); // Xóa trắng ô input sau khi gửi
+    setInputText("");
   };
 
-  // Khi người dùng bấm vào các nút Gợi ý
   const handleSuggestionClick = (suggestion: string) => {
     triggerSend(suggestion);
   };
@@ -166,12 +156,14 @@ const ChatBox: FunctionComponent<ChatBoxProps> = ({ userName, userId }) => {
                       color: msg.sender === "user" ? "white" : "black",
                       maxWidth: "80%",
                       wordWrap: "break-word",
+                      whiteSpace: "pre-wrap",
                     }}
                   >
                     {msg.text}
                   </span>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
           </section>
 
