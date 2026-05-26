@@ -11,7 +11,7 @@
 }
 
 .nav-logo-section {
-  flex: 1; /* Cân bằng không gian với khối Profile để Menu nằm ngay chính giữa */
+  flex: 1;
   display: flex;
   justify-content: flex-start;
 }
@@ -22,16 +22,25 @@
   cursor: pointer;
 }
 
+.nav-minato {
+  color: white;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+  font-weight: 600;
+}
 /* --- 2. KHỐI MENU CHÍNH --- */
 .nav-links-section {
   display: flex;
   justify-content: center;
-  gap: 15px; /* Khoảng cách giữa các nút */
+  gap: 40px;
+  height: 100%;
 }
 
 .home-navbar .btn {
-  flex: 1; /* 🎯 DÒNG QUYẾT ĐỊNH: Ép các nút giãn đều lấp đầy thanh ngang */
-  padding: 15px 0; /* Chỉ cần padding trên/dưới, chiều ngang tự giãn */
+  flex: 1;
+  padding: 15px 25px;
   text-align: center;
   background: transparent;
   border: none;
@@ -39,6 +48,7 @@
   font-size: 16px;
   transition: all 0.2s;
   color: white;
+  white-space: nowrap;
 }
 
 .home-navbar .btn:hover {
@@ -70,7 +80,7 @@
 
 .nav-divider {
   width: 2px;
-  height: 35px;
+  height: 42px;
   background-color: #e5e4e7;
 }
 
