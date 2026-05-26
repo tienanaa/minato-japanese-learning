@@ -7,6 +7,7 @@ import ContentLesson from "../Component/ContentLesson/contentLesson";
 import Quizz from "../Component/Quizz/quizz";
 import ChatBox from "../Component/ChatBox/ChatBox";
 import Result from "../Component/Result/result";
+import Register from "../Component/register/register";
 
 function App() {
   const location = useLocation();
@@ -22,6 +23,14 @@ function App() {
           element={
             <div id="center">
               <Login />
+            </div>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <div id="center">
+              <Register />
             </div>
           }
         />

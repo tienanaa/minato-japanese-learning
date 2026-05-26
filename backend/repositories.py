@@ -32,6 +32,33 @@ def login_user(conn, username, password):
         
         return None 
 
+def register_user(conn, data):
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT UserID FROM NGUOIDUNG ORDER BY UserID DESC LIMIT 1")
+        last_id = cursor.fetchone()
+        
+        if last_id:
+            num = int(last_id[0][1:]) + 1
+            new_user_id = f"U{num:03d}" 
+        else:
+            new_user_id = "U001"
+            
+        query = """
+            INSERT INTO NGUOIDUNG (UserID, Username, Email, MatKhau, TrinhDo, MucTieuK, MucTieuTV, VaiTro)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, 1)
+        """
+        try:
+            cursor.execute(query, (
+                new_user_id, data.username, data.email, data.password, 
+                data.trinhdo, data.muctieu_k, data.muctieu_tv
+            ))
+            conn.commit()
+            return True
+        except Exception as e:
+            conn.rollback()
+            print("Lỗi Insert Database:", e)
+            return False
+        
 def get_user_dashboard(conn,user_id):
     with conn.cursor() as cursor:
         query_view = """

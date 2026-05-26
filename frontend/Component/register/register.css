@@ -1,0 +1,30 @@
+.register-options-row {
+  display: flex;
+  gap: 10px;
+  width: 17.5rem;
+  margin-top: 10px;
+  align-items: flex-end;
+}
+
+.register-input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-input-group label {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.register-input {
+  height: 35px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e4e4e4;
+  background-color: #fff;
+  color: #403e3e;
+  padding-left: 8px;
+  box-sizing: border-box;
+  outline: none;
+}

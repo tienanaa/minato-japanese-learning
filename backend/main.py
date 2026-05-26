@@ -21,6 +21,14 @@ class LoginRequest(BaseModel):
     username: str
     password: str
 
+class RegisterRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+    trinhdo: str
+    muctieu_k: int
+    muctieu_tv: int
+
 class UpdateProgressRequest(BaseModel):
     item_id: str
     loai: str         
@@ -69,6 +77,18 @@ def login(request: LoginRequest, db_conn = Depends(get_db_connection)):
         "status": "success",
         "message": "Đăng nhập thành công",
         "data": user
+    }
+
+@app.post("/api/auth/register")
+def register(request: RegisterRequest, db_conn = Depends(get_db_connection)):
+    success = repositories.register_user(db_conn, request)
+    
+    if not success:
+        raise HTTPException(status_code=400, detail="Tên đăng nhập hoặc Email đã tồn tại!")
+        
+    return {
+        "status": "success",
+        "message": "Đăng ký tài khoản thành công"
     }
 
 @app.get("/api/dashboard/{user_id}")

@@ -13,13 +13,11 @@ export default function Login() {
     setIsLoading(true);
     console.log("dang nhap");
 
-    // Gói dữ liệu đăng nhập lại thành một object để gửi đi
     const loginData = {
       username: username,
       password: password,
     };
     try {
-      // 1. Sửa lại đúng endpoint /api/auth/login
       const response = await fetch("http://localhost:8000/api/auth/login", {
         method: "POST",
         headers: {
@@ -46,20 +44,16 @@ export default function Login() {
           localStorage.setItem("userName", String(safeUserName));
         }
 
-        // Lưu backup toàn bộ cục dữ liệu
         localStorage.setItem("user_info", JSON.stringify(result));
 
         alert("Đăng nhập thành công!");
         window.location.href = "/home";
-        navigate('/home')
+        navigate("/home");
       } else {
-        // Trường hợp 2: Backend báo lỗi (Ví dụ: 401 Unauthorized)
-        // FastAPI HTTPException trả về JSON có dạng { "detail": "Nội dung lỗi" }
         console.error("Đăng nhập thất bại:", result.detail);
         alert(result.detail || "Tài khoản hoặc mật khẩu không chính xác!");
       }
     } catch (error) {
-      // Trường hợp 3: Lỗi kết nối mạng (Server sập, sai CORS...)
       console.error("Lỗi kết nối đến server:", error);
       alert("Không thể kết nối đến máy chủ. Vui lòng thử lại sau!");
     } finally {
@@ -108,24 +102,24 @@ export default function Login() {
           </button>
 
           <p>
-            <a>Quên mật khẩu</a>
+            <a className="remind_password">Quên mật khẩu</a>
           </p>
           <div
             style={{
               display: "flex",
-              alignItems: "center" /* Căn đường kẻ thẳng hàng với chữ */,
-              justifyContent: "center" /* Căn cả cụm vào chính giữa form */,
-              width: "80%" /* Chiều rộng full khung chứa */,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "80%",
               margin: "2px 0",
               gap: "5px",
             }}
           >
             <hr
               style={{
-                flex: 1 /* Tự động kéo dài đường kẻ ra hết khoảng trống */,
+                flex: 1,
                 border: "none",
                 height: "2px",
-                backgroundColor: "#e0e0e0" /* Màu xám mờ tinh tế */,
+                backgroundColor: "#e0e0e0",
               }}
             />
             <p>Hoặc</p>
@@ -143,7 +137,14 @@ export default function Login() {
             google{" "}
           </button>
           <p>
-            Bạn chưa có tài khoản?<a className="remind"> đăng ký ngay</a>
+            Bạn chưa có tài khoản?
+            <a
+              className="remind"
+              onClick={() => navigate("/register")}
+              style={{ cursor: "pointer" }}
+            >
+              Đăng ký ngay
+            </a>
           </p>
         </div>
       </div>
