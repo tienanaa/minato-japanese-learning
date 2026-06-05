@@ -3,13 +3,14 @@ CREATE TABLE NGUOIDUNG (
     Username VARCHAR(50) NOT NULL UNIQUE,
     Email VARCHAR(100) NOT NULL UNIQUE,
     MatKhau VARCHAR(50) NOT NULL,
-    TrinhDo VARCHAR(2) NOT NULL CHECK (TrinhDo IN ('N5', 'N4', 'N3', 'N2', 'N1')),
+    TrinhDo VARCHAR(2) CHECK (TrinhDo IN ('N5', 'N4', 'N3', 'N2', 'N1')),
     MucTieuK SMALLINT NOT NULL CHECK (MucTieuK >= 0),
     MucTieuTV SMALLINT NOT NULL CHECK (MucTieuTV >= 0),
     NgayTaoTK DATE NOT NULL DEFAULT CURRENT_DATE,
-    VaiTro SMALLINT NOT NULL CHECK (VaiTro IN (0, 1)),
+    VaiTro SMALLINT NOT NULL CHECK (VaiTro IN (0, 1, 2)),
     LanTruyCapCuoi TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT chk_muctieu_soluong CHECK (VaiTro = 0 OR (MucTieuK > 0 OR MucTieuTV > 0))
+    CONSTRAINT chk_muctieu_soluong CHECK (VaiTro IN (0,2) OR (MucTieuK > 0 OR MucTieuTV > 0)),
+	CONSTRAINT chk_trinhdo_hocvien CHECK (VaiTro IN (0,2) OR TrinhDo IS NOT NULL)
 );
 
 CREATE TABLE BAIHOC (

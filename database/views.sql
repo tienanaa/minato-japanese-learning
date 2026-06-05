@@ -89,6 +89,7 @@ JOIN CACLUACHON L ON C.LuaChonID = L.LuaChonID;
 CREATE VIEW QuanTri AS
 SELECT 
     ND.TongSoAdmin,
+	ND.TongSoEditor,
 	ND.TongSoHocVien,
 	ND.HocVienMoiHomNay,
 	ND.NguoiHoc_N5,
@@ -107,6 +108,7 @@ SELECT
 FROM(
     SELECT
 		COUNT(*) FILTER (WHERE VaiTro = 0) AS TongSoAdmin,
+		COUNT(*) FILTER (WHERE VaiTro = 2) AS TongSoEditor,
 		COUNT(*) FILTER (WHERE VaiTro = 1) AS TongSoHocVien,
 		COUNT(*) FILTER (WHERE NgayTaoTK = CURRENT_DATE AND VaiTro = 1) AS HocVienMoiHomNay,
 		COUNT(*) FILTER (WHERE TrinhDo = 'N5' AND VaiTro = 1) AS NguoiHoc_N5,
