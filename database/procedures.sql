@@ -117,12 +117,12 @@ $$;
 --  PROCEDURE 7 THÊM GHI CHÚ CÁ NHÂN CHO KANJI
 CREATE OR REPLACE PROCEDURE pr_ThemGhiChuKanji(
     p_UserID VARCHAR, 
-    p_KanjiID VARCHAR, -- Đổi tên tham số cho đúng bản chất
+    p_KanjiID VARCHAR, 
     p_NoiDung TEXT
 )
 LANGUAGE plpgsql AS $$
 BEGIN
-    UPDATE TRANGTHAIKANJI -- Cập nhật đúng bảng Kanji
+    UPDATE TRANGTHAIKANJI 
     SET GhiChu = p_NoiDung
     WHERE UserID = p_UserID AND KanjiID = p_KanjiID;
 END;

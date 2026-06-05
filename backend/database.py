@@ -11,7 +11,8 @@ try:
         database=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASS"),
-        port=os.getenv("DB_PORT")
+        port=os.getenv("DB_PORT"),
+        sslmode="require"
     )
     print("Database connected")
 except Exception as e:
