@@ -43,15 +43,16 @@ export default function Kanji({listData, onToggleStatus, savingItemId}:VocabComp
           ) : (
             /* MAP CÁC TỪ VỰNG TỪ BACKEND VÀO ĐÂY */
             listData.map((item) => {
-              const nextStatus = item.trangthai === 1 ? 0 : 1;
-              const buttonText = item.trangthai === 1 ? 'Đánh dấu Chưa thuộc' : 'Đánh dấu Đã thuộc';
+              const isLearned = item.trangthai === 2;
+              const nextStatus = isLearned ? 0 : 2;
+              const buttonText = isLearned ? 'Đánh dấu Chưa thuộc' : 'Đánh dấu Đã thuộc';
               return (
                 <tr key={item.id} className="vocab-row">
                   <td className="cell-kanji">{item.kanji }</td>
                   <td className="cell-hiragana">{item.mean}</td>
                   <td className="cell-meaning">{item.sonet}</td>
                   <td className="cell-status">
-                    <div className="status-label">{item.trangthai === 1 ? 'Đã thuộc' : 'Chưa thuộc'}</div>
+                    <div className="status-label">{isLearned ? 'Đã thuộc' : 'Chưa thuộc'}</div>
                     <button
                       type="button"
                       className="status-button"

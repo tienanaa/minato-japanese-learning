@@ -6,6 +6,7 @@
   margin-top: 10px;
   align-items: flex-end;
   flex-wrap: nowrap;
+  padding: 0 5px;
 }
 
 .register-input-group {
@@ -31,4 +32,19 @@
   padding-left: 8px;
   box-sizing: border-box;
   outline: none;
+}
+
+@media (max-width: 768px) {
+  .register-options-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .register-input-group {
+    min-width: 100%;
+  }
+
+  .register-input-group label {
+    white-space: normal;
+  }
 }

@@ -1,7 +1,23 @@
 .lesson{
     width: 7rem;
-    height: 8rem;
+    height:fit-content;
     background-color: aliceblue;
     border-radius: 10px;
     margin: 10px 10px;
+}
+
+@media (max-width: 768px) {
+  .lesson {
+    width: 6rem;
+    height: 7rem;
+    margin: 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .lesson {
+    width: 100%;
+    min-height: 6rem;
+    margin: 8px 0;
+  }
 }

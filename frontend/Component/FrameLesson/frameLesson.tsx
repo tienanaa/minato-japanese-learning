@@ -1,5 +1,5 @@
+import { GiNotebook } from 'react-icons/gi';
 import './frameLesson.css'
-import { FiFileText } from "react-icons/fi";
 
 type FrameLessonProp={
     name: string,
@@ -12,7 +12,8 @@ export default function FrameLesson({ name, GotoContent}:FrameLessonProp){
         <>
             <button className='lesson' onClick={GotoContent}>
                 <div>
-                    <FiFileText style={{
+                    <GiNotebook style={{
+                    color:"black",
                     marginTop: "5px",
                     width:"5rem",
                     height:"5rem",

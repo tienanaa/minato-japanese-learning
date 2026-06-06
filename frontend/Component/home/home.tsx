@@ -1,6 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Bell, Settings } from "lucide-react";
+
 import "./home.css";
+
 import { useEffect, useState } from "react";
 
 type TienDoHomNay = {
@@ -22,13 +24,29 @@ type DashboardData = {
   tien_do_hom_nay?: TienDoHomNay;
   tong_tich_luy?: TongTichLuy;
 };
+type DashboardAdmin = {
+  baitapduoclamnhieunhat: string;
+  hocvienmoihomnay: number;
+  nguoihoc_n1: number;
+  nguoihoc_n2: number;
+  nguoihoc_n3: number;
+  nguoihoc_n4: number;
+  nguoihoc_n5: number;
+  tongsoadmin: number;
+  tongsohocvien: number;
+  tongsotuvunghienco: number;
+  tongsokanjihienco: number;
+}
 export default function Home() {
   const userId = localStorage.getItem("userId") || "U002";
+  const role =localStorage.getItem("role");
   const navigate = useNavigate();
+  const location = useLocation();
   const GotoLesson = () => {
     navigate("/lesson");
   };
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [dashboardAdmin, setDashboardAdmin] = useState<DashboardAdmin | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const UserName = localStorage.getItem("userName") || "Học viên";
@@ -39,18 +57,36 @@ export default function Home() {
       try {
         setLoading(true);
         setErrorMessage(null); // Reset lỗi cũ trước khi gọi lại
-
-        const response = await fetch(`http://127.0.0.1:8000/api/dashboard/${userId}`);
+        if(role=='1')
+       { const response = await fetch(`http://127.0.0.1:8000/api/dashboard/${userId}`);
         const json = await response.json();
 
         if (response.ok && json.status === "success") {
           // Lấy trúng phần "data" bên trong cục JSON mà Backend trả về
           setDashboardData(json.data);
-          localStorage.setItem("trinhdo", String(json.data.tien_do_hom_nay.trinh_do ));
+          if (json.data?.tien_do_hom_nay?.trinh_do) {
+            localStorage.setItem("trinhdo", String(json.data.tien_do_hom_nay.trinh_do));
+          }
           console.log(json.data)
         } else {
           // Bắt các lỗi do mình chủ động quăng ra từ Backend (như lỗi 404 user không tồn tại)
           setErrorMessage(json.detail || "Không thể tải dữ liệu Dashboard.");
+        }}
+        else if (role == '0') {
+          const response = await fetch(`http://127.0.0.1:8000/api/admin/dashboard/${userId}`);
+          const json = await response.json();
+          if (response.ok && json.status === "success") {
+            // Lấy trúng phần "data" bên trong cục JSON mà Backend trả về
+            setDashboardAdmin(json.data);
+            console.log("okk")
+            if (json.data?.tien_do_hom_nay?.trinh_do) {
+              localStorage.setItem("trinhdo", String(json.data.tien_do_hom_nay.trinh_do));
+            }
+            console.log(json.data)
+          } else {
+            // Bắt các lỗi do mình chủ động quăng ra từ Backend (như lỗi 404 user không tồn tại)
+            setErrorMessage(json.detail || "Không thể tải dữ liệu Dashboard.");
+          }
         }
       } catch (err) {
         // Bắt lỗi kết nối mạng, sập server...
@@ -62,7 +98,7 @@ export default function Home() {
     };
 
     fetchDashboard();
-  }, [userId]);
+  }, [userId, location.pathname, role]);
    const trinhdo = localStorage.getItem("trinhdo") || "N3";
   if (loading) {
     return <div className="loading">Đang tải dữ liệu Dashboard...</div>;
@@ -89,12 +125,15 @@ export default function Home() {
             <button className="btn">Trợ giúp</button>
           </div>
           <div className="nav-profile-section">
+            
             {/* Các Icon */}
             <div className="nav-icons">
               <Bell size={22} className="icon-action" />
               <Settings size={22} className="icon-action" />
             </div>
-
+            
+              <button className="btn-logout" onClick={()=>navigate("/")} >logout</button>
+            
             {/* Vạch kẻ dọc */}
             <div className="nav-divider"></div>
 
@@ -120,28 +159,77 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="Dasboard">
-        <h3>Mục tiêu học tập</h3>
-        <div className="dashboard-item">
-          <span>Mục tiêu Kanji:</span>
-          <span>{dashboardData?.tien_do_hom_nay?.muc_tieu_Kanji}</span>
+      {role === '1' ? (
+        <div className="Dasboard">
+          <h3>Mục tiêu học tập</h3>
+          <div className="dashboard-item">
+            <span>Mục tiêu Kanji:</span>
+            <span>{dashboardData?.tien_do_hom_nay?.muc_tieu_Kanji ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Mục tiêu từ vựng:</span>
+            <span>{dashboardData?.tien_do_hom_nay?.muc_tieu_tu_vung ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Kanji đã thuộc:</span>
+            <span>{dashboardData?.tong_tich_luy?.tong_kanji_da_thuoc ?? 0}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Từ vựng đã thuộc:</span>
+            <span>{dashboardData?.tong_tich_luy?.tong_tuvung_da_thuoc ?? 0}</span>
+          </div>
         </div>
-        <hr/>
-        <div className="dashboard-item">
-          <span>Mục tiêu từ vựng:</span>
-          <span>{dashboardData?.tien_do_hom_nay?.muc_tieu_tu_vung}</span>
+      ) : role === '0' ? (
+        
+        <div className="Dasboard">
+        
+          <h3>Thống kê Admin</h3>
+          <div className="dashboard-item">
+            <span>Số Admin:</span>
+            <span style={{
+              color:"black"
+            }}>{dashboardAdmin?.tongsoadmin ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Số học viên:</span>
+            <span style={{
+              color:"black"
+            }}>{dashboardAdmin?.tongsohocvien ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Học viên mới:</span>
+            <span style={{
+              color:"black"
+            }}>{dashboardAdmin?.hocvienmoihomnay ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Tổng số từ vựng:</span>
+            <span style={{
+              color:"black"
+            }}>{dashboardAdmin?.tongsotuvunghienco ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Tổng số Kanji:</span>
+            <span style={{
+              color:"black"
+            }}>{dashboardAdmin?.tongsokanjihienco ?? '-'}</span>
+          </div>
+          <hr />
+          <div className="dashboard-item">
+            <span>Bài tập làm nhiều nhất:</span>
+            <span style={{
+              color:"black"
+            }}>{dashboardAdmin?.baitapduoclamnhieunhat ?? '-'}</span>
+          </div>
         </div>
-        <hr/>
-        <div className="dashboard-item">
-          <span>Kanji đã thuộc:</span>
-          <span>{dashboardData?.tong_tich_luy?.tong_kanji_da_thuoc}</span>
-        </div>
-        <hr/>
-        <div className="dashboard-item">
-          <span>Từ vựng đã thuộc:</span>
-          <span>{dashboardData?.tong_tich_luy?.tong_tuvung_da_thuoc}</span>
-        </div>
-      </div>
+      ) : null}
     </div>
   );
 }

@@ -32,7 +32,7 @@ const state = location.state as { lessonId?: string; loaiBH?: string; tenBH?:str
 const lessonId = state?.lessonId || "BH001";
 const loaiBH = state?.loaiBH || "TuVung";
 const tenBH = state?.tenBH|| "Bai 1";
-  const userId = localStorage.getItem("user_id") || "U002";
+  const userId = localStorage.getItem("userId") || "U002";
 
   // 2. Tạo state để lưu trữ danh sách từ vựng/chữ hán lấy từ Backend về
   const [danhSachTuVung, setDanhSachTuVung] = useState<VocabProp[]>([]);
@@ -150,9 +150,7 @@ const tenBH = state?.tenBH|| "Bai 1";
           </div>
           <div className="nav-links-section">
             <button className="btn" onClick={()=>navigate('/home')} >Trang chủ</button>
-            <button className="btn" >
-              Bài học
-            </button>
+            <button className="btn" onClick={()=> navigate('/lesson')}>Bài học</button>
             <button className="btn">Luyện tập</button>
             <button className="btn">Bảng xếp hạng</button>
             <button className="btn">Trợ giúp</button>
@@ -163,7 +161,7 @@ const tenBH = state?.tenBH|| "Bai 1";
               <Bell size={22} className="icon-action" />
               <Settings size={22} className="icon-action" />
             </div>
-
+            <button className="btn-logout" onClick={()=>navigate("/")} >logout</button>
             {/* Vạch kẻ dọc */}
             <div className="nav-divider"></div>
 

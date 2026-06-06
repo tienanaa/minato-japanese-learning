@@ -53,6 +53,52 @@ input::placeholder {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
+
+}
+.password-field {
+ display: flex;
+  align-items: center; /* Căn giữa input và chữ "Hiện" theo chiều dọc */
+  
+  /* Tạo hình dáng cho khung giống y như ảnh của bạn */
+   width: 17.5rem;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px solid #e4e4e4;
+  background: #fff;
+  color: #403e3e;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+.password-field:focus-within{
+  border-color: #090b0e; /* Đổi màu viền xanh khi đang gõ */
+  box-shadow: 0 0 0 0.1px #090b0e;
+}
+.passwordInput{
+    flex: 1; /* Chiếm toàn bộ khoảng trống còn lại bên trái */
+  border: none !important; /* Xóa bỏ viền mặc định */
+  outline: none !important; /* Xóa bỏ viền xanh mặc định của trình duyệt khi focus */
+  background: transparent; /* Làm trong suốt nền để lộ nền của div cha */
+  padding: 0;
+  font-size: 16px;
+}
+.password-field input {
+  width: 100%;
+}
+.password-toggle {
+  border: none;
+  background: transparent;
+  color: #0074d4;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 10px;
+  height: 35px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+.password-toggle:hover {
+  background-color: rgba(0, 116, 212, 0.08);
 }
 .containInput {
   width: 350px;
@@ -101,13 +147,43 @@ input::placeholder {
   font-size: 15px;
   margin-bottom: 15px;
 }
-.checkbox_save {
-  width: 18rem;
+.pass{
+  width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 1px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  margin: 5px 0;
+  padding: 5px 5px;
+  font-size: 16px;
+}
+.pass p {
+  margin: 0;
+}
+.a-remind{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+  margin: 0;
+}
+.a-remind a {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+.checkbox_save {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
   align-items: center;
   justify-content: flex-start;
+  white-space: nowrap;
+}
+.checkbox_save label {
+  line-height: 1;
 }
 .checkbox_save input {
   background-color: #e4e4e4;
@@ -163,3 +239,42 @@ input:-webkit-autofill:active {
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* @media (max-width: 992px) {
+  .Contain {
+    width: min(100%, 90%);
+    margin: 60px auto;
+  }
+
+  .containInput,
+  input,
+  .btn-login,
+  .btn-gg,
+  .checkbox_save {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .checkbox_save {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .Contain {
+    margin: 40px 16px;
+  }
+
+  .ContainImg {
+    margin: 0 auto;
+  }
+
+  .Contain p {
+    font-size: 14px;
+  }
+
+  .btn-login,
+  .btn-gg {
+    font-size: 0.95rem;
+  }
+} */

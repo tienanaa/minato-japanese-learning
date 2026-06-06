@@ -45,7 +45,7 @@
 
 .ContainListLesson{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 10px;
     grid-auto-rows: max-content;
     width: 85%;
@@ -56,4 +56,41 @@
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
+}
+
+@media (max-width: 992px) {
+  .ContainTitleLesson {
+    width: min(100%, 95%);
+    padding: 18px 22px;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .ContainTitleLesson span {
+    font-size: 1.8rem;
+  }
+
+  .ContainTitleLesson svg {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .ContainListLesson {
+    width: min(100%, 95%);
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ContainTitleLesson {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .ContainListLesson {
+    width: min(100%, 95%);
+    padding: 18px;
+    gap: 10px;
+  }
 }

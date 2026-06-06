@@ -240,7 +240,7 @@ def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
         try:
             query_nhatky = """
                 INSERT INTO NHATKYLAMBAI (UserID, BTOntapID, SoLanLamBai, Diem)
-                VALUES (%s, %s, 0, 0)
+                VALUES (%s, %s, 1, 0)
                 RETURNING LamBaiID;
             """
             cursor.execute(query_nhatky, (user_id, btontapid))
@@ -251,7 +251,10 @@ def submit_quiz(conn, baihoc_id, user_id, btontapid, chi_tiet):
                 VALUES (%s, %s, %s, (SELECT DapAnDung FROM CACLUACHON WHERE LuaChonID = %s));
             """
             for ct in chi_tiet:
-                cursor.execute(query_chitiet, (lambai_id, ct.cauhoiid, ct.luachonid, ct.luachonid))
+                # chi_tiet items are dicts parsed from JSON
+                cauhoiid = ct.get('cauhoiid') if isinstance(ct, dict) else getattr(ct, 'cauhoiid', None)
+                luachonid = ct.get('luachonid') if isinstance(ct, dict) else getattr(ct, 'luachonid', None)
+                cursor.execute(query_chitiet, (lambai_id, cauhoiid, luachonid, luachonid))
 
             cursor.execute("CALL pr_GhiNhanKetQuaLamBai(%s, %s, %s)", (user_id, btontapid, lambai_id))
             

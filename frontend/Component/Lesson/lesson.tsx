@@ -90,8 +90,9 @@ export default function Lesson() {
             <div className="nav-icons">
               <Bell size={22} className="icon-action" />
               <Settings size={22} className="icon-action" />
+              
             </div>
-
+            <button className="btn-logout" onClick={()=>navigate("/")} >logout</button>
             {/* Vạch kẻ dọc */}
             <div className="nav-divider"></div>
 

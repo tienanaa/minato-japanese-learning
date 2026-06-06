@@ -124,3 +124,44 @@
 .BodyTable tr:last-child td {
     border-bottom: none;
 }
+
+@media (max-width: 992px) {
+  .Contain_table {
+    padding: 18px;
+  }
+
+  .table th,
+  .BodyTable td {
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+
+  .cell-kanji {
+    font-size: 20px;
+  }
+
+  .cell-hiragana,
+  .cell-meaning,
+  .cell-status {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .Contain_table {
+    overflow-x: auto;
+    width: calc(100% - 24px);
+    margin: 20px auto;
+  }
+
+  .table {
+    min-width: 620px;
+  }
+
+  .col-kanji,
+  .col-hiragana,
+  .col-meaning,
+  .col-status {
+    width: auto;
+  }
+}

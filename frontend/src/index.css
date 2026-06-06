@@ -115,3 +115,23 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Global responsive helpers */
+* {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

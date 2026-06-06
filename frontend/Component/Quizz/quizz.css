@@ -109,3 +109,33 @@
 .btn-back:hover {
     background: #005bb5;
 }
+
+@media (max-width: 680px) {
+  .quiz-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .quiz-title {
+    font-size: 1.6rem;
+  }
+
+  .quiz-meta {
+    text-align: left;
+  }
+
+  .Quesstion {
+    padding: 1.25rem 1rem;
+  }
+
+  .btn-answer {
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .quiz-status {
+    margin: 3rem auto;
+    padding: 1.5rem;
+  }
+}

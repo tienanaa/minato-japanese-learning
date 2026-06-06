@@ -41,7 +41,7 @@ function App() {
         <Route path="/Result" element={<Result />} />
       </Routes>
 
-      {location.pathname !== "/" && (
+      {location.pathname !== "/" && location.pathname!=="/register"  && (
         <ChatBox userName={currentUserName} userId={currentUserId} />
       )}
     </>

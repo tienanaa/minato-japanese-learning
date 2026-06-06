@@ -71,10 +71,12 @@ export default function Register() {
           <img src="../../public/logo-movebg.png" alt="Logo" />
         </div>
         <h2 style={{ color: "#0074D4", margin: "5px 0" }}>Tạo tài khoản mới</h2>
-
-        <div className="username">
-          <label>Tên đăng nhập:</label>
+        <form onSubmit={handleRegister}>
+          <div className="containInput" style={{ padding: "20px 0", width:"fit-content" }}>
+            <div className="username">
+          <label htmlFor="userName">Tên đăng nhập:</label>
           <input
+            id="userName"
             type="text"
             placeholder="Nhập username"
             onChange={(e) => setUsername(e.target.value)}
@@ -82,8 +84,9 @@ export default function Register() {
         </div>
 
         <div className="username">
-          <label>Email:</label>
+          <label htmlFor="email">Email:</label>
           <input
+            id="email"
             type="email"
             placeholder="Nhập email"
             onChange={(e) => setEmail(e.target.value)}
@@ -91,8 +94,9 @@ export default function Register() {
         </div>
 
         <div className="password">
-          <label>Mật khẩu:</label>
+          <label htmlFor="pass">Mật khẩu:</label>
           <input
+            id="pass"
             type="password"
             placeholder="Nhập mật khẩu"
             onChange={(e) => setPassword(e.target.value)}
@@ -111,8 +115,9 @@ export default function Register() {
         {/* Trình độ và Mục tiêu */}
         <div className="register-options-row">
           <div className="register-input-group">
-            <label>Trình độ:</label>
+            <label htmlFor="trinhDo">Trình độ:</label>
             <select
+              id="trinhDo"
               value={trinhDo}
               onChange={(e) => setTrinhDo(e.target.value)}
               className="register-input"
@@ -126,8 +131,9 @@ export default function Register() {
           </div>
 
           <div className="register-input-group">
-            <label>Mục tiêu Kanji:</label>
+            <label htmlFor="MuctieuK">Mục tiêu Kanji:</label>
             <input
+              id="MuctieuK"
               type="number"
               min="1"
               value={mucTieuK}
@@ -137,8 +143,9 @@ export default function Register() {
           </div>
 
           <div className="register-input-group">
-            <label>Mục tiêu từ vựng:</label>
+            <label htmlFor="MucTieuTV">Mục tiêu từ vựng:</label>
             <input
+              id="MucTieuTV"
               type="number"
               min="1"
               value={mucTieuTV}
@@ -147,15 +154,18 @@ export default function Register() {
             />
           </div>
         </div>
-
         <button
           className="btn-login"
-          onClick={handleRegister}
+          type="submit"
           disabled={isLoading}
           style={{ marginTop: "15px" }}
         >
           Đăng ký ngay
         </button>
+          </div>
+          
+        </form>
+        
 
         <p style={{ marginTop: "10px" }}>
           Đã có tài khoản?{" "}

@@ -113,6 +113,8 @@
 @media (max-width: 768px) {
   .result-wrapper {
     gap: 1rem;
+    width: 100%;
+    padding: 0 0.5rem;
   }
 
   .resultQuizz,
@@ -122,5 +124,9 @@
 
   .Content {
     padding: 1.25rem;
+  }
+
+  .btn-Home {
+    align-self: stretch;
   }
 }
