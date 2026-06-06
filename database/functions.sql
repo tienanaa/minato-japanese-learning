@@ -95,8 +95,8 @@ $BODY$;
 
 -- lay Kanji cua bai hoc
 CREATE OR REPLACE FUNCTION public.get_kanji_of_lesson(
-	character varying,
-	character varying)
+    character varying,
+    character varying)
     RETURNS TABLE(kanjiid character varying, kytu character, nghia text, sonet smallint, image text, trangthai smallint) 
     LANGUAGE 'plpgsql'
     COST 100
@@ -104,14 +104,18 @@ CREATE OR REPLACE FUNCTION public.get_kanji_of_lesson(
     ROWS 1000
 
 AS $BODY$
- 
 BEGIN
-	RETURN QUERY
-	SELECT K.KANJIID, K.kytu,K.NGHIA,K.SONET,K.IMAGE, trangthaikanji.trangthai
-	FROM BAIHOC BH JOIN kanji K
-		ON BH.BAIHOCID=K.BAIHOCID JOIN trangthaikanji
-		ON trangthaikanji.kanjiid = K.kanjiid  
-	WHERE BH.BAIHOCID= $1 AND TRANGTHAIKANJI.USERID = $2;
+    RETURN QUERY
+    SELECT 
+        K.KANJIID, 
+        K.kytu,
+        K.NGHIA,
+        K.SONET,
+        K.IMAGE, 
+        COALESCE(TK.trangthai, 0::smallint) AS trangthai
+    FROM KANJI K
+    LEFT JOIN trangthaikanji TK ON TK.kanjiid = K.kanjiid AND TK.userid = $2
+    WHERE K.BAIHOCID = $1;
 END;
 $BODY$;
 
@@ -181,8 +185,8 @@ $BODY$;
 
 -- lay cac tu vung cua bai hoc
 CREATE OR REPLACE FUNCTION public.get_vocab_of_lesson(
-	character varying,
-	character varying)
+    character varying,
+    character varying)
     RETURNS TABLE(tuvungid character varying, tuvung character varying, cachdoc character varying, nghia text, vidujan text, viduviet text, audio text, trangthai smallint) 
     LANGUAGE 'plpgsql'
     COST 100
@@ -190,14 +194,21 @@ CREATE OR REPLACE FUNCTION public.get_vocab_of_lesson(
     ROWS 1000
 
 AS $BODY$
- 
 BEGIN
-	RETURN QUERY
-	SELECT TV.TUVUNGID, TV.TUVUNG,TV.CACHDOC, TV.NGHIA, TV.VIDUJAN, TV.VIDUVIET, AUDIO.AUDIO, TTTV.TRANGTHAI
-	FROM BAIHOC BH JOIN TUVUNG TV
-		ON BH.BAIHOCID=TV.BAIHOCID JOIN trangthaituvung TTTV 
-		ON TV.TUVUNGID=TTTV.TUVUNGID JOIN audio ON audio.audioid = TV.audioid
-	WHERE BH.BAIHOCID= $1 AND TTTV.USERID=$2;
-	
+    RETURN QUERY
+    SELECT 
+        TV.TUVUNGID, 
+        TV.TUVUNG,
+        TV.CACHDOC, 
+        TV.NGHIA, 
+        TV.VIDUJAN, 
+        TV.VIDUVIET, 
+        AUDIO.AUDIO, 
+        COALESCE(TTTV.TRANGTHAI, 0::smallint) AS TRANGTHAI
+    FROM TUVUNG TV
+    LEFT JOIN audio ON audio.audioid = TV.audioid
+    LEFT JOIN trangthaituvung TTTV ON TV.TUVUNGID = TTTV.TUVUNGID AND TTTV.USERID = $2
+    WHERE TV.BAIHOCID = $1;
+    
 END;
 $BODY$;

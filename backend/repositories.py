@@ -45,7 +45,7 @@ def register_user(conn, data):
             
         query = """
             INSERT INTO NGUOIDUNG (UserID, Username, Email, MatKhau, TrinhDo, MucTieuK, MucTieuTV, VaiTro)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, 1)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, 2)
         """
         try:
             cursor.execute(query, (

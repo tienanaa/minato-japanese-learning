@@ -2,8 +2,8 @@ INSERT INTO NGUOIDUNG (UserID, Username, Email, MatKhau, TrinhDo, MucTieuK, MucT
 VALUES 
     ('U001', 'minh_nhat', 'nhat@gmail.com', 'pass123', 'N5', 0, 0, '2026-01-01', 0, '2026-04-26 08:30:00'),
     ('U002', 'thu_ha99', 'ha99@gmail.com', 'ha@2026', 'N5', 3, 2, '2026-01-05', 1, '2026-04-25 14:15:00'),
-    ('U003', 'thanh_tung', 'tungt@gmail.com', 'tung999', 'N5', 5, 4, '2026-01-10', 1, '2026-04-26 10:00:00'),
-    ('U004', 'kieu_anh', 'anhk@gmail.com', 'anh1234', 'N5', 3, 3, '2026-01-15', 1, '2026-04-24 19:20:00');
+    ('U003', 'thanh_tung', 'tungt@gmail.com', 'tung999', 'N5', 5, 4, '2026-01-10', 2, '2026-04-26 10:00:00'),
+    ('U004', 'kieu_anh', 'anhk@gmail.com', 'anh1234', 'N5', 3, 3, '2026-01-15', 2, '2026-04-24 19:20:00');
 
 INSERT INTO BAIHOC (BaiHocID, TenBai, Loai, TrinhDo) 
 VALUES 

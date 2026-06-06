@@ -9,8 +9,8 @@ CREATE TABLE NGUOIDUNG (
     NgayTaoTK DATE NOT NULL DEFAULT CURRENT_DATE,
     VaiTro SMALLINT NOT NULL CHECK (VaiTro IN (0, 1, 2)),
     LanTruyCapCuoi TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT chk_muctieu_soluong CHECK (VaiTro IN (0,2) OR (MucTieuK > 0 OR MucTieuTV > 0)),
-	CONSTRAINT chk_trinhdo_hocvien CHECK (VaiTro IN (0,2) OR TrinhDo IS NOT NULL)
+    CONSTRAINT chk_muctieu_soluong CHECK (VaiTro IN (0,1) OR (MucTieuK > 0 OR MucTieuTV > 0)),
+	CONSTRAINT chk_trinhdo_hocvien CHECK (VaiTro IN (0,1) OR TrinhDo IS NOT NULL)
 );
 
 CREATE TABLE BAIHOC (
