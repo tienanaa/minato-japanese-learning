@@ -108,14 +108,14 @@ SELECT
 FROM(
     SELECT
 		COUNT(*) FILTER (WHERE VaiTro = 0) AS TongSoAdmin,
-		COUNT(*) FILTER (WHERE VaiTro = 2) AS TongSoEditor,
-		COUNT(*) FILTER (WHERE VaiTro = 1) AS TongSoHocVien,
-		COUNT(*) FILTER (WHERE NgayTaoTK = CURRENT_DATE AND VaiTro = 1) AS HocVienMoiHomNay,
-		COUNT(*) FILTER (WHERE TrinhDo = 'N5' AND VaiTro = 1) AS NguoiHoc_N5,
-		COUNT(*) FILTER (WHERE TrinhDo = 'N4' AND VaiTro = 1) AS NguoiHoc_N4,
-		COUNT(*) FILTER (WHERE TrinhDo = 'N3' AND VaiTro = 1) AS NguoiHoc_N3,
-		COUNT(*) FILTER (WHERE TrinhDo = 'N2' AND VaiTro = 1) AS NguoiHoc_N2,
-		COUNT(*) FILTER (WHERE TrinhDo = 'N1' AND VaiTro = 1) AS NguoiHoc_N1
+		COUNT(*) FILTER (WHERE VaiTro = 1) AS TongSoEditor,
+		COUNT(*) FILTER (WHERE VaiTro = 2) AS TongSoHocVien,
+		COUNT(*) FILTER (WHERE NgayTaoTK = CURRENT_DATE AND VaiTro = 2) AS HocVienMoiHomNay,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N5' AND VaiTro = 2) AS NguoiHoc_N5,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N4' AND VaiTro = 2) AS NguoiHoc_N4,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N3' AND VaiTro = 2) AS NguoiHoc_N3,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N2' AND VaiTro = 2) AS NguoiHoc_N2,
+		COUNT(*) FILTER (WHERE TrinhDo = 'N1' AND VaiTro = 2) AS NguoiHoc_N1
 	FROM NGUOIDUNG
 ) AS ND;
 
