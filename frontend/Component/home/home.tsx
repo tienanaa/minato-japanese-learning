@@ -159,7 +159,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      {role === '1' ? (
+      {role === '1' || role==='2' ? (
         <div className="Dasboard">
           <h3>Mục tiêu học tập</h3>
           <div className="dashboard-item">
