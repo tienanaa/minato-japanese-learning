@@ -18,7 +18,7 @@ export default function Lesson() {
   const [error, setError] = useState<string | null>(null);
 
   // Lấy user_id thực tế đã lưu từ trang Login
-  const userId = localStorage.getItem("userid") || "U002";
+  const userId = localStorage.getItem("userId") || "U002";
   const trinhDo = "N5"; // Bạn có thể linh hoạt thay đổi "N4", "N3"...
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function Lesson() {
               <Settings size={22} className="icon-action" />
               
             </div>
-            <button className="btn-logout" onClick={()=>navigate("/")} >logout</button>
+             <button className="btn-logout" onClick={()=>navigate("/")} >Đăng xuất</button>
             {/* Vạch kẻ dọc */}
             <div className="nav-divider"></div>
 

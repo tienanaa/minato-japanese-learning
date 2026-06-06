@@ -15,7 +15,7 @@ frontend/dist-ssr/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log* 
-
+node_modules/
 # Python/FastAPI 
 backend/venv/
 backend/env/

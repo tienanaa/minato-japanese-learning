@@ -149,7 +149,7 @@
 .Contain-title {
   margin-top: 3.75em;
   margin-left: 4rem;
-  width: 30rem;
+  width: 35rem;
   height: fit-content;
 }
 .Contain-title p {
@@ -196,9 +196,10 @@
   margin-left: auto;
 }
 .btn-logout{
-  width: 5rem;
+  width: fit-content;
   height: 100%;
-  font-size: 20px;
+  padding: 1px 15px;
+  font-size: 14px;
   background-color: transparent;
   border-radius: 1px;
   color: #ff2323;

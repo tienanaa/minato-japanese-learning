@@ -161,7 +161,7 @@ const tenBH = state?.tenBH|| "Bai 1";
               <Bell size={22} className="icon-action" />
               <Settings size={22} className="icon-action" />
             </div>
-            <button className="btn-logout" onClick={()=>navigate("/")} >logout</button>
+             <button className="btn-logout" onClick={()=>navigate("/")} >Đăng xuất</button>
             {/* Vạch kẻ dọc */}
             <div className="nav-divider"></div>
 
