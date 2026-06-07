@@ -128,7 +128,7 @@ BEGIN
 END;
 $$;
 
--- 
+-- Procedure 8
 CREATE OR REPLACE PROCEDURE pr_GhiNhanHocKanji(
     p_UserID VARCHAR(10),
     p_KanjiID VARCHAR(10),
@@ -137,14 +137,15 @@ CREATE OR REPLACE PROCEDURE pr_GhiNhanHocKanji(
     p_ChiTietID VARCHAR(10)
 )
 LANGUAGE plpgsql AS $$
-
 DECLARE
     v_TienDoID VARCHAR(10);
 BEGIN
-    UPDATE TRANGTHAIKANJI 
-    SET TrangThai = p_TrangThai, 
-        NgayHocLanGanNhat = CURRENT_TIMESTAMP
-    WHERE UserID = p_UserID AND KanjiID = p_KanjiID;
+    INSERT INTO TRANGTHAIKANJI (UserID, KanjiID, TrangThai, NgayHocLanGanNhat)
+    VALUES (p_UserID, p_KanjiID, p_TrangThai, CURRENT_TIMESTAMP)
+    ON CONFLICT (UserID, KanjiID) 
+    DO UPDATE SET 
+        TrangThai = EXCLUDED.TrangThai, 
+        NgayHocLanGanNhat = EXCLUDED.NgayHocLanGanNhat;
 
     IF p_TrangThai = 2 THEN 
         INSERT INTO TIENDOHANGNGAY (TienDoID, NgayHoc, UserID, SoLuongTuVungDaHoc, SoLuongKanjiDaHoc, TrangThai)
@@ -163,6 +164,7 @@ BEGIN
 END;
 $$;
 
+
 -- Procedure 9
 CREATE OR REPLACE PROCEDURE pr_GhiNhanHocTuVung(
     p_UserID VARCHAR(10),
@@ -175,10 +177,12 @@ LANGUAGE plpgsql AS $$
 DECLARE
     v_TienDoID VARCHAR(10);
 BEGIN
-    UPDATE TRANGTHAITUVUNG 
-    SET TrangThai = p_TrangThai, 
-        NgayHocLanGanNhat = CURRENT_TIMESTAMP
-    WHERE UserID = p_UserID AND TuVungID = p_TuVungID;
+    INSERT INTO TRANGTHAITUVUNG (UserID, TuVungID, TrangThai, NgayHocLanGanNhat)
+    VALUES (p_UserID, p_TuVungID, p_TrangThai, CURRENT_TIMESTAMP)
+    ON CONFLICT (UserID, TuVungID) 
+    DO UPDATE SET 
+        TrangThai = EXCLUDED.TrangThai, 
+        NgayHocLanGanNhat = EXCLUDED.NgayHocLanGanNhat;
 
     IF p_TrangThai = 2 THEN 
         INSERT INTO TIENDOHANGNGAY (TienDoID, NgayHoc, UserID, SoLuongTuVungDaHoc, SoLuongKanjiDaHoc, TrangThai)
